@@ -7,8 +7,13 @@ const router = new VueRouter({
     routes: [
         {
             path: '/',
-            component: () => import("@/views/login/index"),
-            redirect: "/login",
+            component: () => import("@/views/frontend/index"),
+            redirect: "/frontend",
+        },
+        {
+            path: '/frontend',
+            name: 'Frontend',
+            component: () => import("@/views/frontend/index"),
         },
         {
             path: '/login',
