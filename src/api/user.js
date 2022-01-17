@@ -3,7 +3,7 @@ import request from '../util/request'
 
 const login = (data) => {
     return request({
-        url: '/login',
+        url: '/user',
         method: 'post',
         data
     })

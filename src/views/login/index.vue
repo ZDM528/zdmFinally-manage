@@ -15,36 +15,6 @@
     </el-form>
   </div>
 </template>
-<style lang="scss" scoped>
-.form {
-  width: 100%;
-  height: 100%;
-  background-image: url("../../assets/img/login-bg.jpeg");
-  background-size: cover;
-  overflow: hidden;
-  .title {
-    text-align: center;
-  }
-  input {
-    height: 32px;
-  }
-  .loginForm {
-    max-width: 350px;
-    margin: 150px auto;
-    padding: 20px 35px 15px 35px;
-    background-color: #fff;
-    border-radius: 18px;
-    border: 3px solid #dfcece;
-    box-sizing: border-box;
-  }
-  .remember {
-    margin-bottom: 15px !important;
-  }
-  .submit {
-    width: 100%;
-  }
-}
-</style>
 <script>
 import Cookies from "js-cookie";
 export default {
@@ -99,3 +69,33 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.form {
+  width: 100%;
+  height: 100%;
+  background-image: url("../../assets/img/login-bg.jpeg");
+  background-size: cover;
+  overflow: hidden;
+  .title {
+    text-align: center;
+  }
+  input {
+    height: 32px;
+  }
+  .loginForm {
+    max-width: 350px;
+    margin: 150px auto;
+    padding: 20px 35px 15px 35px;
+    background-color: #fff;
+    border-radius: 18px;
+    border: 3px solid #dfcece;
+    box-sizing: border-box;
+  }
+  .remember {
+    margin-bottom: 15px !important;
+  }
+  .submit {
+    width: 100%;
+  }
+}
+</style>

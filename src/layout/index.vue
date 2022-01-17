@@ -38,7 +38,7 @@ export default {
   methods: {
     toggleCollapse(isCollapse,asideWidth) {
       this.isCollapse = isCollapse;
-      this.asideWidth=asideWidth
+      this.asideWidth = asideWidth
     },
   },
 };

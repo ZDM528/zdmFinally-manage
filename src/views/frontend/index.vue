@@ -1,21 +1,51 @@
 <template>
-  <div>
-    <el-menu :default-active="activeKey" class="el-menu-demo" mode="horizontal" background-color="#fff" text-color="#000" :active-text-color="variables.menuActiveText" style="border-shadow: 10px 0px 10px rgba(0, 0, 0, 1)" @select="handleSelect" router>
-      <el-menu-item index="/mainPage">数据列表</el-menu-item>
+  <div class="container">
+    <!-- 导航栏 -->
+    <el-menu  class="el-menu-demo" mode="horizontal" background-color="#fff" text-color="#000" :active-text-color="variables.menuActiveText" style="border-shadow: 10px 0px 10px rgba(0, 0, 0, 1)" @select="handleSelect" router>
+      <div class="logo-img">
+        <a href="/">
+          <img src="../../assets/img/logo.png" alt="">
+        </a>
+      </div>
+      <el-menu-item index="/warehouse">数据仓库</el-menu-item>
       <el-menu-item index="/mainPage">数据社区</el-menu-item>
       <el-menu-item index="/personRoom">个人空间</el-menu-item>
+      <div class="login">
+        <el-button type="warning">充值 VIP</el-button>
+         <el-button type="primary" @click="login" >登录</el-button>
+         <el-button type="danger" @click="register" >注册</el-button>
+      </div>
     </el-menu>
+
+    <!-- 登录/注册对话框 -->
+    <Dialog :dialogFormVisible="dialogFormVisible" :title="title" :submitType="submitType" @dialogClose="dialogClose"/>
+
     <keep-alive include="MainPage">
       <router-view style="padding: 0 10%"></router-view>
     </keep-alive>
+
+    <!-- footer -->
+    <div class="footer">
+      <div class="copyright">
+        Copyright @2022 广东金融学院
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import variables from "@/styles/_variable.scss";
+import Dialog from '../frontend/components/Dialog.vue'
 export default {
   data() {
-    return {};
+    return {
+      title: '',
+      dialogFormVisible: false,
+      submitType: ''
+    };
+  },
+  components: {
+    Dialog
   },
   computed: {
     variables() {
@@ -24,14 +54,75 @@ export default {
   },
   methods: {
     handleSelect() {},
+
+    login() {
+      this.title = '登录'
+      this.submitType = '登录'
+      this.dialogFormVisible = true
+    },
+    register() {
+      this.title = '注册'
+      this.submitType = '注册'
+      this.dialogFormVisible = true
+    },
+    dialogClose(){
+      this.dialogFormVisible = false
+    }
   },
 };
 </script>
 
-<style>
+<style lang="scss" scope>
+.container {
+  height: 100%;
+  background-color: rgba(157, 161, 160, 0.479);
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    color: #b1adad;
+    text-align: center;
+    background-color: #fff;
+    margin-top: 10px;
+    .copyright {
+      padding: 30px;
+    }
+  }
+}
 .el-menu-demo {
+  display: flex;
   box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.4);
   padding-left: 20%;
   padding-right: 20%;
+  .logo-img {
+    margin-right: 40px;
+    a {
+      display: inline-block;
+      img {
+        width: 100%;
+        height: 55px;
+      }
+    }
+  }
+  .login {
+    margin-left: auto;
+    margin-top: 10px;
+    margin-right: 20px;
+  }
+}
+input {
+    height: 32px;
+}
+.loginForm {
+  max-width: 350px;
+  padding: 20px 35px 15px 35px;
+  box-sizing: border-box;
+}
+.remember {
+    margin-bottom: 15px;
+}
+.submit {
+  width: 100%;
 }
 </style>

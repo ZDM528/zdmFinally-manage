@@ -14,6 +14,14 @@ const router = new VueRouter({
             path: '/frontend',
             name: 'Frontend',
             component: () => import("@/views/frontend/index"),
+            exact: true,
+            children: [
+                {
+                    path: '/warehouse',
+                    name: '数据仓库',
+                    component: () => import('@/views/frontend/warehouse/WareHouse')
+                },
+            ]
         },
         {
             path: '/login',
@@ -28,7 +36,7 @@ const router = new VueRouter({
             redirect: '/student/information',
             children: [
                 {
-                    path: 'information',
+                    path: '/information',
                     name: '学生信息',
                     component: () => import('@/views/studentInfo/index.vue'),
                     meta: { title: '学生信息', icon: 'el-icon-edit' }
