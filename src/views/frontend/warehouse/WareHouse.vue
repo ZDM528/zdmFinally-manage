@@ -5,14 +5,16 @@
       <el-form :inline="true" :model="optionForm" class="demo-form-inline">
         <el-form-item label="获取方式">
           <el-select v-model="optionForm.access" placeholder="获取方式">
-            <el-option label="免费" value="0"></el-option>
-            <el-option label="会员免费" value="1"></el-option>
+            <el-option label="不限" value="0"></el-option>
+            <el-option label="免费" value="1"></el-option>
+            <el-option label="会员免费" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="数据类别">
           <el-select v-model="optionForm.dataSort" placeholder="数据类别">
-            <el-option label="企业数据" value="0"></el-option>
-            <el-option label="地理数据" value="1"></el-option>
+            <el-option label="不限" value="0"></el-option>
+            <el-option label="企业数据" value="1"></el-option>
+            <el-option label="地理数据" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -21,7 +23,7 @@
       </el-form>
 
       <!-- 数据列表 -->
-      <el-table :data="tableData" border style="width: 100%" class="el-table">
+      <el-table :data="dataList" border style="width: 100%" class="el-table">
         <el-table-column prop="name" label="名称" width="190"></el-table-column>
         <el-table-column prop="information" label="基本信息" width="190"></el-table-column>
         <el-table-column prop="price" label="价格" width="190"></el-table-column>
@@ -37,67 +39,40 @@
 </template>
 
 <script>
+import warehouse from '../../../api/wareHouse'
 export default {
   name: 'WareHouse',
   data() {
-      return {
-        optionForm: {
-          access: '',
-          dataSort: ''
-        },
-        tableData: [{
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        }, {
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        }, {
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        }, {
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        }, {
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        }, {
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        }, {
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        },{
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        },
-        {
-          name: '王小虎',
-          information: '时间跨度：2000-2020',
-          price: '会员免费',
-          right: ''
-        }]
+    return {
+      optionForm: {
+        access: '不限',
+        dataSort: '不限'
+      },
+      dataList: []
+    }
+  },
+  mounted() {
+    this.getList()
+  },
+  methods: {
+    //查询数据
+    dataSubmit() {
+      this.getList()
+    },
+    //获取页面数据
+    getList() {
+      let res = warehouse({
+        access: this.optionForm.access,
+        dataSort: this.optionForm.dataSort
+      })
+      if(res.code === 200) {
+        console.log('获取列表数据成功')
+      }else {
+        console.log('获取列表数据失败')
       }
     },
-    methods: {
-      dataSubmit() {},
-      detailClick() {}
-    }
+    detailClick() {}
+  }
 }
 </script>
 

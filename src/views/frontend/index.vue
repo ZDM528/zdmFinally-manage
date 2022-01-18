@@ -14,8 +14,8 @@
         <el-button type="warning" @click="pay">充值 VIP</el-button>
         <el-button type="primary" @click="login" :disabled="disabled">{{ disabled ? "已登录" : " 登录" }}</el-button>
         <el-button type="danger" @click="register">注册</el-button>
-        <div>用户:{{ !disabled ? "未登录" : `${Cookies.get("username")}` }}</div>
       </div>
+      <div class="user">用户:{{ !disabled ? "未登录" : `${Cookies.get("username")}` }}</div>
     </el-menu>
 
     <!-- 充值VIP对话框 -->
@@ -105,8 +105,8 @@ body {
   .el-menu-demo {
     display: flex;
     box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.4);
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-left: 15%;
+    padding-right: 15%;
     .logo-img {
       margin-right: 40px;
       width: 50px;
@@ -123,6 +123,13 @@ body {
       margin-left: auto;
       margin-top: 10px;
       margin-right: 20px;
+    }
+    .user {
+      width: 15%;
+      height: 55px;
+      color: #409EFF;
+      text-align: center;
+      line-height: 55px;
     }
   }
   .footer {
