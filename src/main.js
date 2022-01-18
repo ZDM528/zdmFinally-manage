@@ -4,6 +4,9 @@ import router from './router';
 import store from './store';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+// import Cookies from "js-cookie";
+// Cookies.remove("username")
+// Cookies.remove("id")
 
 Vue.use(Element);
 Vue.config.productionTip = false;
@@ -13,3 +16,4 @@ new Vue({
   router,
   store,
 }).$mount('#app')
+

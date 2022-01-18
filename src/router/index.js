@@ -14,7 +14,7 @@ const router = new VueRouter({
             path: '/frontend',
             name: 'Frontend',
             component: () => import("@/views/frontend/index"),
-            exact: true,
+            redirect:"warehouse",
             children: [
                 {
                     path: '/warehouse',

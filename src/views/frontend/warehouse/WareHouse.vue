@@ -80,6 +80,17 @@ export default {
           information: '时间跨度：2000-2020',
           price: '会员免费',
           right: ''
+        },{
+          name: '王小虎',
+          information: '时间跨度：2000-2020',
+          price: '会员免费',
+          right: ''
+        },
+        {
+          name: '王小虎',
+          information: '时间跨度：2000-2020',
+          price: '会员免费',
+          right: ''
         }]
       }
     },
