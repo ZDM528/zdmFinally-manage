@@ -101,5 +101,16 @@ export default {
 </script>
 
 <style scoped>
+input {
+  height: 32px;
+}
+.loginForm {
+  max-width: 350px;
+  padding: 20px 35px 15px 35px;
+  box-sizing: border-box;
+}
+.submit {
+  width: 100%;
+}
 </style>
 
