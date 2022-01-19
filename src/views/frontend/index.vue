@@ -19,7 +19,7 @@
     </el-menu>
 
     <!-- 充值VIP对话框 -->
-    <pay-dialog :showPayDialog="showPayDialog" @closePayDialog="closePayDialog" />
+    <pay-dialog :showPayDialog="showPayDialog" @closePayDialog="closePayDialog" @becomeVip="becomeVip" />
 
     <!-- 登录/注册对话框 -->
     <Dialog :dialogFormVisible="dialogFormVisible" :title="title" :submitType="submitType" @dialogClose="dialogClose" @hasLogin="hasLogin" />
@@ -68,14 +68,19 @@ export default {
     if (Cookies.get("username") && Cookies.get("username") !== "") {
       this.disabled = true;
     }
-    if (Cookies.get("isVip")) {
+    if (Cookies.get("isVip")=="yes") {
       this.isVip = true;
     }
   },
   methods: {
     handleSelect() {},
     pay() {
-      this.showPayDialog = true;
+      if (!Cookies.get("username")) {
+        this.$message.error("请先登录！");
+        return;
+      } else {
+        this.showPayDialog = true;
+      }
     },
     login() {
       this.title = "登录";
@@ -94,8 +99,11 @@ export default {
       this.disabled = true;
     },
     closePayDialog() {
-      this.isVip = true;
       this.showPayDialog = false;
+    },
+    becomeVip() {
+      Cookies.set("isVip", "yes");
+      this.isVip = true;
     },
   },
 };

@@ -31,8 +31,8 @@
       <el-table :data="pageData" border style="width: 100%" class="el-table">
         <el-table-column prop="name" label="名称" width="190" fixed="left"></el-table-column>
         <el-table-column prop="info" label="基本信息" width="190"></el-table-column>
-        <el-table-column prop="dataSort" label="数据类别" width="190"></el-table-column>
         <el-table-column prop="access" label="价格" width="190"></el-table-column>
+        <el-table-column prop="dataSort" label="数据类别" width="190"></el-table-column>
         <el-table-column prop="right" label="操作" width="189" fixed="right">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" @click="detailClick(scope.row)">查看</el-button>
@@ -42,23 +42,22 @@
       </el-table>
 
       <!-- 分页 -->
-      <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" :current-page="currentPage">
-      </el-pagination>
+      <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" :current-page="currentPage"> </el-pagination>
 
-      <!-- 查看对话框 -->
-      <detail-dialog :title="title" :price="price" :info="info" :type="type" 
-       :showDetailDialog="showDetailDialog" @closeDialog="closeDialog" />
+    
     </el-card>
+      <!-- 查看对话框 -->
+      <detail-dialog :title="title" :price="price" :info="info" :type="type" :showDetailDialog="showDetailDialog" @closeDialog="closeDialog" />
   </div>
 </template>
 
 <script>
 import { getWareList, download } from "../../api/wareHouse";
-import DetailDialog from './DetailDialog.vue'
-import Cookies from 'js-cookie'
+import DetailDialog from "./DetailDialog.vue";
+import Cookies from "js-cookie";
 export default {
   name: "WareHouse",
-  data () {
+  data() {
     return {
       optionForm: {
         access: "不限",
@@ -70,54 +69,55 @@ export default {
       pageSize: 10, //每页数据条数
       currentPage: 1, //当前页数
       showDetailDialog: false,
-      title: '',
-      price: '',
-      info: '',
-      type: '',
+      title: "",
+      price: "",
+      info: "",
+      type: "",
     };
   },
   components: {
-    DetailDialog
+    DetailDialog,
   },
-  mounted () {
+  mounted() {
     this.getList();
   },
   methods: {
     //查询数据
-    dataSubmit () {
+    dataSubmit() {
       this.getList();
     },
     //获取页面列表总数据
-    async getList () {
+    async getList() {
       let res = await getWareList({
         access: this.optionForm.access,
         dataSort: this.optionForm.dataSort,
       });
       if (res) {
         this.dataList = res.data;
-        this.count = res.data.length
-        this.getPageData()
+        this.count = res.data.length;
+        this.getPageData();
         console.log("获取列表数据成功");
       }
     },
     //获取要渲染的页面数据
-    getPageData () {
-      let start = (this.currentPage - 1) * this.pageSize
-      let end = this.pageSize * this.currentPage
-      this.pageData = this.dataList.slice(start, end)
+    getPageData() {
+      let start = (this.currentPage - 1) * this.pageSize;
+      let end = this.pageSize * this.currentPage;
+      this.pageData = this.dataList.slice(start, end);
     },
     //当前页改变时
-    handleCurrentChange (currentPage) {
+    handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
-      this.getPageData()
+      this.getPageData();
     },
     //下载
-    async download (row) {
-      if (Cookies.get('username') && Cookies.get('username') !== '') {
-        if (row.access === '免费' || (row.access === '会员免费' && Cookies.get('isVip') === true)) {
+    async download(row) {
+      if (Cookies.get("username") && Cookies.get("username") !== "") {
+        console.log("cookie", Cookies.get("isVip"));
+        if (row.access === "免费" || (row.access === "会员免费" && Cookies.get("isVip") == "yes")) {
           let res = await download({
-            id: row.id
-          })
+            id: row.id,
+          });
           if (res) {
             const buf = Buffer.from(res.data.data, "binary");
             let blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8" }); // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
@@ -130,28 +130,28 @@ export default {
             document.body.removeChild(downloadElement); // 下载完成移除元素
             window.URL.revokeObjectURL(href); // 释放掉blob对象
             console.log("获取列表数据成功");
-            this.$message.success('下载成功！')
+            this.$message.success("下载成功！");
           } else {
-            this.$message.error('下载失败！')
+            this.$message.error("下载失败！");
           }
         } else {
-          this.$message.error('成为会员后即可获取资源！')
+          this.$message.error("成为会员后即可获取资源！");
         }
       } else {
-        this.$message.error('请先登录！')
+        this.$message.error("请先登录！");
       }
     },
     //查看
     detailClick(row) {
-      this.title = row.name
-      this.price = row.access
-      this.info = row.info
-      this.type = row.dataSort
-      this.showDetailDialog = true
+      this.title = row.name;
+      this.price = row.access;
+      this.info = row.info;
+      this.type = row.dataSort;
+      this.showDetailDialog = true;
     },
     closeDialog() {
-      this.showDetailDialog = false
-    }
+      this.showDetailDialog = false;
+    },
   },
 };
 </script>
