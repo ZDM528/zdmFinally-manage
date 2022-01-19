@@ -136,8 +136,8 @@ body {
   .el-menu-demo {
     display: flex;
     box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.4);
-    padding-left: 15%;
-    padding-right: 15%;
+    padding-left: 10%;
+    padding-right: 10%;
     .logo-img {
       margin-right: 40px;
       width: 50px;
@@ -152,6 +152,7 @@ body {
     }
     .login {
       margin-left: auto;
+      margin-left: 60px;
       margin-top: 10px;
       margin-right: 20px;
     }
