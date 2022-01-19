@@ -27,7 +27,7 @@
     <!-- 登录/注册对话框 -->
     <Dialog :dialogFormVisible="dialogFormVisible" :title="title" :submitType="submitType" @dialogClose="dialogClose" @hasLogin="hasLogin" />
 
-    <keep-alive include="MainPage">
+    <keep-alive >
       <router-view style="padding: 0 10%" @updateScore="updateScore"></router-view>
     </keep-alive>
 
@@ -69,6 +69,7 @@ export default {
     },
   },
   created() {
+    this.activeKey=this.$route.path
     if (Cookies.get("username") && Cookies.get("username") !== "") {
       this.disabled = true;
     }
@@ -157,7 +158,7 @@ body {
       margin-right: 20px;
     }
     .user {
-      width: 15%;
+      width: 10%;
       height: 60px;
       color: #409eff;
       text-align: center;

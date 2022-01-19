@@ -3,9 +3,9 @@
     <!-- 选项卡片 -->
     <div class="box-option">
       <el-card class="option-card">
-        <span>数据共享分类</span>
+        <span style="color: #409eff">数据共享分类</span>
         <ul>
-          <li v-for="(item, index) in items" :key="index" @click="selectStyle(item)" :class="{'active': item.active}">{{ item.title }}</li>
+          <li v-for="(item, index) in items" :key="index" @click="selectStyle(item)" :class="{ active: item.active }">{{ item.title }}</li>
         </ul>
       </el-card>
     </div>
@@ -15,7 +15,7 @@
       <el-card class="data-card">
         <div class="row-1">
           <div class="img-wrap">
-            <img src="../../assets/img/fish-logo.png" alt="">
+            <img src="../../assets/img/fish-logo.png" alt="" />
           </div>
           <span class="name">1111111</span>
         </div>
@@ -36,67 +36,72 @@
         </div>
       </el-card>
     </div>
-
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import Cookies from 'js-cookie'
+import Vue from "vue";
+import Cookies from "js-cookie";
 export default {
-  name: 'Community',
-  data () {
+  name: "Community",
+  data() {
     return {
-      items: [{ title: '全部内容', active: true }, { title: '数据分享', active: false }, { title: '资料分享', active: false }],
+      items: [
+        { title: "全部内容", active: true },
+        { title: "数据分享", active: false },
+        { title: "资料分享", active: false },
+      ],
       active: false,
-      comment: '',
-      commentArr: []
-    }
+      comment: "",
+      commentArr: [],
+    };
   },
-  created () {
+  created() {
     if (Cookies.get("content")) {
-      this.commentArr = Cookies.get("content").split(',')
+      this.commentArr = Cookies.get("content").split(",");
     }
   },
   computed: {
-    Cookies () {
-      return Cookies
-    }
+    Cookies() {
+      return Cookies;
+    },
   },
   methods: {
-    commentSubmit () {
-      if (!Cookies.get('username')) {
-        this.$message.error('请先登录！')
+    commentSubmit() {
+      if (!Cookies.get("username")) {
+        this.$message.error("请先登录！");
       } else {
-        this.commentArr.push(this.comment)
-        Cookies.set('content', this.commentArr)
+        this.commentArr.push(this.comment);
+        Cookies.set("content", this.commentArr);
       }
     },
-    selectStyle (item) {
+    selectStyle(item) {
       this.$nextTick(function () {
         this.items.forEach(function (item) {
-          Vue.set(item, 'active', false);
+          Vue.set(item, "active", false);
         });
-        Vue.set(item, 'active', true);
+        Vue.set(item, "active", true);
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .community {
   position: relative;
-  width: 100%;
   margin-top: 20px;
   .box-option {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
     width: 70%;
-    font-size: 20px;
+    font-size: 18px;
     .option-card {
+      position: absolute;
       width: 80%;
+      left: 50%;
+      transform: translate(-50%);
       border-radius: 20px;
       ul {
         display: inline-block;
