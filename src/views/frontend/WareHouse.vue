@@ -44,12 +44,17 @@
       <!-- 分页 -->
       <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" :current-page="currentPage">
       </el-pagination>
+
+      <!-- 查看对话框 -->
+      <detail-dialog :title="title" :price="price" :info="info" :type="type" 
+       :showDetailDialog="showDetailDialog" @closeDialog="closeDialog" />
     </el-card>
   </div>
 </template>
 
 <script>
 import { getWareList, download } from "../../api/wareHouse";
+import DetailDialog from './DetailDialog.vue'
 import Cookies from 'js-cookie'
 export default {
   name: "WareHouse",
@@ -63,8 +68,16 @@ export default {
       pageData: [], //渲染的数据数组
       count: 0, //数据总数
       pageSize: 10, //每页数据条数
-      currentPage: 1 //当前页数
+      currentPage: 1, //当前页数
+      showDetailDialog: false,
+      title: '',
+      price: '',
+      info: '',
+      type: '',
     };
+  },
+  components: {
+    DetailDialog
   },
   mounted () {
     this.getList();
@@ -98,6 +111,7 @@ export default {
       this.currentPage = currentPage;
       this.getPageData()
     },
+    //下载
     async download (row) {
       if (Cookies.get('username') && Cookies.get('username') !== '') {
         if (row.access === '免费' || (row.access === '会员免费' && Cookies.get('isVip') === true)) {
@@ -127,6 +141,17 @@ export default {
         this.$message.error('请先登录！')
       }
     },
+    //查看
+    detailClick(row) {
+      this.title = row.name
+      this.price = row.access
+      this.info = row.info
+      this.type = row.dataSort
+      this.showDetailDialog = true
+    },
+    closeDialog() {
+      this.showDetailDialog = false
+    }
   },
 };
 </script>
