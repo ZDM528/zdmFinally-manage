@@ -8,7 +8,7 @@
         </a>
       </div>
       <el-menu-item index="/warehouse">数据仓库</el-menu-item>
-      <el-menu-item index="/mainPage">数据社区</el-menu-item>
+      <el-menu-item index="/community">数据社区</el-menu-item>
       <el-menu-item index="/personRoom">个人空间</el-menu-item>
       <div class="login">
         <el-button type="warning" @click="pay" :disabled="isVip">{{ !isVip ? "充值 VIP" : "已是Vip会员" }}</el-button>

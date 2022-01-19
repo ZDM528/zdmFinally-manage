@@ -19,8 +19,13 @@ const router = new VueRouter({
                 {
                     path: '/warehouse',
                     name: '数据仓库',
-                    component: () => import('@/views/frontend/WareHouse')
+                    component: () => import('@/views/frontend/WareHouse.vue')
                 },
+                {
+                    path: '/community',
+                    name: '数据社区',
+                    component: () => import('@/views/frontend/Community.vue')
+                }
             ]
         },
         {
