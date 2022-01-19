@@ -28,55 +28,105 @@
       </el-form>
 
       <!-- 数据列表 -->
-      <el-table :data="dataList" border style="width: 100%" class="el-table">
-        <el-table-column prop="name" label="名称" width="190"></el-table-column>
+      <el-table :data="pageData" border style="width: 100%" class="el-table">
+        <el-table-column prop="name" label="名称" width="190" fixed="left"></el-table-column>
         <el-table-column prop="info" label="基本信息" width="190"></el-table-column>
-         <el-table-column prop="dataSort" label="数据类别" width="190"></el-table-column>
+        <el-table-column prop="dataSort" label="数据类别" width="190"></el-table-column>
         <el-table-column prop="access" label="价格" width="190"></el-table-column>
-        <el-table-column prop="right" label="操作" width="189">
-          <el-button size="mini" type="primary" @click="detailClick">查看</el-button>
+        <el-table-column prop="right" label="操作" width="189" fixed="right">
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="detailClick(scope.row)">查看</el-button>
+            <el-button size="mini" type="danger" @click="download(scope.row)">下载</el-button>
+          </template>
         </el-table-column>
       </el-table>
 
       <!-- 分页 -->
-      <el-pagination background layout="prev, pager, next" :total="100"></el-pagination>
+      <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" :current-page="currentPage">
+      </el-pagination>
     </el-card>
   </div>
 </template>
 
 <script>
-import { getWareList } from "../../api/wareHouse";
+import { getWareList, download } from "../../api/wareHouse";
+import Cookies from 'js-cookie'
 export default {
   name: "WareHouse",
-  data() {
+  data () {
     return {
       optionForm: {
         access: "不限",
         dataSort: "不限",
       },
-      dataList: [],
+      dataList: [], //总数据列表
+      pageData: [], //渲染的数据数组
+      count: 0, //数据总数
+      pageSize: 10, //每页数据条数
+      currentPage: 1 //当前页数
     };
   },
-  mounted() {
+  mounted () {
     this.getList();
   },
   methods: {
     //查询数据
-    dataSubmit() {
+    dataSubmit () {
       this.getList();
     },
-    //获取页面数据
-    async getList() {
+    //获取页面列表总数据
+    async getList () {
       let res = await getWareList({
         access: this.optionForm.access,
         dataSort: this.optionForm.dataSort,
       });
       if (res) {
         this.dataList = res.data;
+        this.count = res.data.length
+        this.getPageData()
         console.log("获取列表数据成功");
       }
     },
-    detailClick() {},
+    //获取要渲染的页面数据
+    getPageData () {
+      let start = (this.currentPage - 1) * this.pageSize
+      let end = this.pageSize * this.currentPage
+      this.pageData = this.dataList.slice(start, end)
+    },
+    //当前页改变时
+    handleCurrentChange (currentPage) {
+      this.currentPage = currentPage;
+      this.getPageData()
+    },
+    async download (row) {
+      if (Cookies.get('username') && Cookies.get('username') !== '') {
+        if (row.access === '免费' || (row.access === '会员免费' && Cookies.get('isVip') === true)) {
+          let res = await download({
+            id: row.id
+          })
+          if (res) {
+            const buf = Buffer.from(res.data.data, "binary");
+            let blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8" }); // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+            let downloadElement = document.createElement("a");
+            let href = window.URL.createObjectURL(blob); // 创建下载的链接
+            downloadElement.href = href;
+            downloadElement.download = "data.xlsx"; // 下载后文件名
+            document.body.appendChild(downloadElement);
+            downloadElement.click(); // 点击下载
+            document.body.removeChild(downloadElement); // 下载完成移除元素
+            window.URL.revokeObjectURL(href); // 释放掉blob对象
+            console.log("获取列表数据成功");
+            this.$message.success('下载成功！')
+          } else {
+            this.$message.error('下载失败！')
+          }
+        } else {
+          this.$message.error('成为会员后即可获取资源！')
+        }
+      } else {
+        this.$message.error('请先登录！')
+      }
+    },
   },
 };
 </script>

@@ -29,9 +29,9 @@
     </keep-alive>
 
     <!-- footer -->
-    <div class="footer">
+    <!-- <div class="footer">
       <div class="copyright">Copyright @2022 广东金融学院</div>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -9,6 +9,15 @@ const getWareList = (data) => {
   })
 }
 
+const download = (data) => {
+  return request({
+    url: '/downloadData',
+    method: 'get',
+    params: data
+  })
+}
+
 export {
-  getWareList
+  getWareList,
+  download
 }

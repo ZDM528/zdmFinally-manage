@@ -55,7 +55,7 @@ export default {
           });
           if (res.code === 200) {
             this.$message.success("充值成功!");
-            Cookies.set("isVip", true);
+            Cookies.set("isVip", 'true');
             this.$emit("closePayDialog");
           } else {
             this.$message.error("充值失败!");
