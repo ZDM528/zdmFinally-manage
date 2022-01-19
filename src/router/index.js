@@ -19,7 +19,7 @@ const router = new VueRouter({
                 {
                     path: '/warehouse',
                     name: '数据仓库',
-                    component: () => import('@/views/frontend/warehouse/WareHouse')
+                    component: () => import('@/views/frontend/WareHouse')
                 },
             ]
         },

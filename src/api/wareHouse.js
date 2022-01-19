@@ -4,9 +4,8 @@ const getWareList = (data) => {
   return request({
     url: '/getWareList',
     method: 'get',
-    params: {
-      data
-    }
+    params: data
+    
   })
 }
 

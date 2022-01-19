@@ -73,6 +73,7 @@ export default {
               this.$emit("dialogClose");
               Cookies.set("username", this.ruleForm.username);
               Cookies.set("id", result.data.id);
+              Cookies.set("isVip", result.data.isVip);
               this.$emit("hasLogin");
             } else {
               this.$message.error("用户名或者密码不对");

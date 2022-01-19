@@ -11,7 +11,7 @@
       <el-menu-item index="/mainPage">数据社区</el-menu-item>
       <el-menu-item index="/personRoom">个人空间</el-menu-item>
       <div class="login">
-        <el-button type="warning" @click="pay">充值 VIP</el-button>
+        <el-button type="warning" @click="pay" :disabled="isVip">{{ !isVip ? "充值 VIP" : "已是Vip会员" }}</el-button>
         <el-button type="primary" @click="login" :disabled="disabled">{{ disabled ? "已登录" : " 登录" }}</el-button>
         <el-button type="danger" @click="register">注册</el-button>
       </div>
@@ -38,7 +38,7 @@
 <script>
 import variables from "@/styles/_variable.scss";
 import Dialog from "../frontend/components/Dialog.vue";
-import PayDialog from './PayDialog'
+import PayDialog from "./PayDialog";
 import Cookies from "js-cookie";
 export default {
   data() {
@@ -49,11 +49,12 @@ export default {
       showPayDialog: false,
       activeKey: "/warehouse",
       disabled: false,
+      isVip: false,
     };
   },
   components: {
     Dialog,
-    PayDialog
+    PayDialog,
   },
   computed: {
     variables() {
@@ -67,11 +68,14 @@ export default {
     if (Cookies.get("username") && Cookies.get("username") !== "") {
       this.disabled = true;
     }
+    if (Cookies.get("isVip")) {
+      this.isVip = true;
+    }
   },
   methods: {
     handleSelect() {},
     pay() {
-      this.showPayDialog = true
+      this.showPayDialog = true;
     },
     login() {
       this.title = "登录";
@@ -90,8 +94,9 @@ export default {
       this.disabled = true;
     },
     closePayDialog() {
-      this.showPayDialog = false
-    }
+      this.isVip = true;
+      this.showPayDialog = false;
+    },
   },
 };
 </script>
@@ -127,7 +132,7 @@ body {
     .user {
       width: 15%;
       height: 55px;
-      color: #409EFF;
+      color: #409eff;
       text-align: center;
       line-height: 55px;
     }
