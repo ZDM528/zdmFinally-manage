@@ -16,6 +16,9 @@
         <el-button type="danger" @click="register">注册</el-button>
       </div>
       <div class="user">用户:{{ !disabled ? "未登录" : `${Cookies.get("username")}` }}</div>
+      <el-tooltip class="item" effect="dark" content="积分可兑换数据集" placement="bottom">
+        <el-button class="scoreBtn">积分:{{ score }}</el-button>
+      </el-tooltip>
     </el-menu>
 
     <!-- 充值VIP对话框 -->
@@ -25,7 +28,7 @@
     <Dialog :dialogFormVisible="dialogFormVisible" :title="title" :submitType="submitType" @dialogClose="dialogClose" @hasLogin="hasLogin" />
 
     <keep-alive include="MainPage">
-      <router-view style="padding: 0 10%"></router-view>
+      <router-view style="padding: 0 10%" @updateScore="updateScore"></router-view>
     </keep-alive>
 
     <!-- footer -->
@@ -50,6 +53,7 @@ export default {
       activeKey: "/warehouse",
       disabled: false,
       isVip: false,
+      score: 0,
     };
   },
   components: {
@@ -68,8 +72,11 @@ export default {
     if (Cookies.get("username") && Cookies.get("username") !== "") {
       this.disabled = true;
     }
-    if (Cookies.get("isVip")=="yes") {
+    if (Cookies.get("isVip") && Cookies.get("isVip") == "yes") {
       this.isVip = true;
+    }
+    if (Cookies.get("score") && Cookies.get("score") !== "") {
+      this.score = Cookies.get("score");
     }
   },
   methods: {
@@ -97,6 +104,12 @@ export default {
     },
     hasLogin() {
       this.disabled = true;
+      if (Cookies.get("isVip") && Cookies.get("isVip") == "yes") {
+        this.isVip = true;
+      }
+      if (Cookies.get("score") && Cookies.get("score") !== "") {
+        this.score = Cookies.get("score");
+      }
     },
     closePayDialog() {
       this.showPayDialog = false;
@@ -104,6 +117,11 @@ export default {
     becomeVip() {
       Cookies.set("isVip", "yes");
       this.isVip = true;
+    },
+    updateScore() {
+      if (Cookies.get("score") && Cookies.get("score") !== "") {
+        this.score = Cookies.get("score");
+      }
     },
   },
 };
@@ -139,10 +157,11 @@ body {
     }
     .user {
       width: 15%;
-      height: 55px;
+      height: 60px;
       color: #409eff;
       text-align: center;
-      line-height: 55px;
+      line-height: 60px;
+      white-space: nowrap;
     }
   }
   .footer {
@@ -157,6 +176,10 @@ body {
     .copyright {
       padding: 30px;
     }
+  }
+  .scoreBtn {
+    color: red;
+    border: 0;
   }
 }
 </style>

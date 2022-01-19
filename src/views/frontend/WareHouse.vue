@@ -31,28 +31,28 @@
       <el-table :data="pageData" border style="width: 100%" class="el-table">
         <el-table-column prop="name" label="名称" width="190" fixed="left"></el-table-column>
         <el-table-column prop="info" label="基本信息" width="190"></el-table-column>
-        <el-table-column prop="access" label="价格" width="190"></el-table-column>
-        <el-table-column prop="dataSort" label="数据类别" width="190"></el-table-column>
-        <el-table-column prop="right" label="操作" width="189" fixed="right">
+        <el-table-column prop="score" label="兑换积分" width="130"></el-table-column>
+        <el-table-column prop="access" label="价格" width="130"></el-table-column>
+        <el-table-column prop="dataSort" label="数据类别" width="150"></el-table-column>
+        <el-table-column prop="right" label="操作" width="219" fixed="right">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" @click="detailClick(scope.row)">查看</el-button>
             <el-button size="mini" type="danger" @click="download(scope.row)">下载</el-button>
+            <el-button size="mini" type="success" @click="useScore(scope.row)">兑换</el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <!-- 分页 -->
       <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" :current-page="currentPage"> </el-pagination>
-
-    
     </el-card>
-      <!-- 查看对话框 -->
-      <detail-dialog :title="title" :price="price" :info="info" :type="type" :showDetailDialog="showDetailDialog" @closeDialog="closeDialog" />
+    <!-- 查看对话框 -->
+    <detail-dialog :title="title" :price="price" :info="info" :type="type" :showDetailDialog="showDetailDialog" @closeDialog="closeDialog" />
   </div>
 </template>
 
 <script>
-import { getWareList, download } from "../../api/wareHouse";
+import { getWareList, download, updateScore } from "../../api/wareHouse";
 import DetailDialog from "./DetailDialog.vue";
 import Cookies from "js-cookie";
 export default {
@@ -111,31 +111,54 @@ export default {
       this.getPageData();
     },
     //下载
+    async getDownload(row) {
+      let res = await download({
+        id: row.id,
+      });
+      if (res) {
+        const buf = Buffer.from(res.data.data, "binary");
+        let blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8" }); // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
+        let downloadElement = document.createElement("a");
+        let href = window.URL.createObjectURL(blob); // 创建下载的链接
+        downloadElement.href = href;
+        downloadElement.download = "data.xlsx"; // 下载后文件名
+        document.body.appendChild(downloadElement);
+        downloadElement.click(); // 点击下载
+        document.body.removeChild(downloadElement); // 下载完成移除元素
+        window.URL.revokeObjectURL(href); // 释放掉blob对象
+        console.log("获取列表数据成功");
+        this.$message.success("下载成功！");
+      } else {
+        this.$message.error("下载失败！");
+      }
+    },
+    //下载
     async download(row) {
       if (Cookies.get("username") && Cookies.get("username") !== "") {
-        console.log("cookie", Cookies.get("isVip"));
         if (row.access === "免费" || (row.access === "会员免费" && Cookies.get("isVip") == "yes")) {
-          let res = await download({
-            id: row.id,
-          });
-          if (res) {
-            const buf = Buffer.from(res.data.data, "binary");
-            let blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8" }); // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
-            let downloadElement = document.createElement("a");
-            let href = window.URL.createObjectURL(blob); // 创建下载的链接
-            downloadElement.href = href;
-            downloadElement.download = "data.xlsx"; // 下载后文件名
-            document.body.appendChild(downloadElement);
-            downloadElement.click(); // 点击下载
-            document.body.removeChild(downloadElement); // 下载完成移除元素
-            window.URL.revokeObjectURL(href); // 释放掉blob对象
-            console.log("获取列表数据成功");
-            this.$message.success("下载成功！");
-          } else {
-            this.$message.error("下载失败！");
-          }
+          this.getDownload(row);
         } else {
           this.$message.error("成为会员后即可获取资源！");
+        }
+      } else {
+        this.$message.error("请先登录！");
+      }
+    },
+    //积分兑换
+    async useScore(row) {
+      if (Cookies.get("username") && Cookies.get("username") !== "") {
+        if (parseInt(row.score) > parseInt(Cookies.get("score"))) {
+          this.$message.error("积分不足以兑换数据集");
+        } else {
+          this.getDownload(row);
+          let score = parseInt(Cookies.get("score")) - parseInt(row.score);
+          let res = await updateScore({ id: Cookies.get("id"), username: Cookies.get("username"), score: score });
+          if (res.code == 200) {
+            this.$message.success("兑换成功");
+            Cookies.set("score", score);
+            console.log("cookie", Cookies.get("score"));
+            this.$emit("updateScore");
+          }
         }
       } else {
         this.$message.error("请先登录！");

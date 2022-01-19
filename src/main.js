@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 Cookies.remove("username")
 Cookies.remove("id")
 Cookies.remove("isVip")
+Cookies.remove("score")
 
 Vue.use(Element);
 Vue.config.productionTip = false;

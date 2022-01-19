@@ -5,7 +5,7 @@ const getWareList = (data) => {
     url: '/getWareList',
     method: 'get',
     params: data
-    
+
   })
 }
 
@@ -17,7 +17,16 @@ const download = (data) => {
   })
 }
 
+const updateScore = (data) => {
+  return request({
+    url: '/updateScore',
+    method: 'post',
+    data
+  })
+}
+
 export {
   getWareList,
-  download
+  download,
+  updateScore
 }

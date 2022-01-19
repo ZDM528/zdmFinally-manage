@@ -73,13 +73,8 @@ export default {
               this.$emit("dialogClose");
               Cookies.set("username", this.ruleForm.username);
               Cookies.set("id", result.data.id);
-              if (result.data.isVip == "yes") {
-                console.log("login1", result.data.isVip);
-                Cookies.set("isVip", "yes");
-              } else {
-                console.log("login2", result.data.isVip);
-                Cookies.set("isVip", "no");
-              }
+              Cookies.set("score", result.data.score);
+              Cookies.set("isVip", result.data.isVip);
               this.$emit("hasLogin");
             } else {
               this.$message.error("用户名或者密码不对");
