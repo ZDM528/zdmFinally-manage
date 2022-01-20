@@ -1,22 +1,22 @@
 <template>
   <div class="post">
     <el-card class="post-card">
-      <el-form :model="postForm" status-icon  label-position="left" :rules="postRules" ref="ruleForm" class="postform">
+      <el-form :model="postForm" status-icon :rules="postRules" ref="ruleForm" class="postform">
         <el-form-item label="主题板块" prop="type">
-          <el-select v-model="postForm.type" placeholder="请选择主题">
+          <el-select v-model="postForm.type" placeholder="请选择主题" class="title-input">
             <el-option label="资料分享" value="资料分享"></el-option>
             <el-option label="问题互助" value="问题互助"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="帖子标题" prop="title" placeholder="请选择主题">
-          <el-input v-model="postForm.title" maxlength="15" show-word-limit></el-input>
+        <el-form-item label="帖子标题" prop="title">
+          <el-input v-model="postForm.title" maxlength="15" show-word-limit placeholder="请选择主题"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="content">
           <el-input type="textarea" placeholder="请输入内容" v-model="postForm.content" 
-            maxlength="100" show-word-limit></el-input>
+            maxlength="100" show-word-limit :rows="6"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="danger" class="btn">发布</el-button>
+          <el-button type="danger" class="btn" @click="postSubmit('ruleForm')">发布</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -24,19 +24,53 @@
 </template>
 
 <script>
+import { post } from '../../api/community'
+import Cookies from 'js-cookie'
 export default {
   name: 'Post',
   data() {
+    var validateType = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请选择主题"));
+      }
+      callback();
+    };
+    var validateTitle = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入帖子标题"));
+      }
+      callback();
+    };
     return {
       postForm: {
         type: '',
         title: '',
-        content: ''
+        content: '',
+        name: Cookies.get('username')
       },
       postRules: {
-        type: [{ required: true, message: '请选择主题', trigger: 'blur' }],
-        title: [{ required: true, message: '请输入帖子标题', trigger: 'blur' }]
+        type: [{ validator: validateType, trigger: 'blur' }],
+        title: [{ validator: validateTitle, trigger: 'blur' }],
+        content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
       }
+    }
+  },
+  methods: {
+    postSubmit(formName) {
+      this.$refs[formName].validate(async valid => {
+        if (valid) {
+          let res = await post(this.postForm)
+          if(res.code === 200) {
+            this.$message.success('发布成功！')
+            this.$router.push('/community')
+            this.$refs[formName].resetFields()
+          } else {
+            this.$message.error('发布失败！')
+          }
+        } else {
+          return false
+        }
+      })
     }
   }
 }
@@ -51,8 +85,16 @@ export default {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    width: 600px;
+    width: 40%;
     border-radius: 20px;
+    .title-input {
+      width: 50%;
+      margin-left: -30%;
+    }
+    .btn {
+      width: 30%;
+      border-radius: 20px;
+    }
   }
 }
 </style>

@@ -27,8 +27,11 @@
         </div>
 
         <!-- 评论区域 -->
-        <div v-for="(item, index1) in commentArr[index]" :key="index1">
-          {{ item }}
+        <div class="comment-box">
+          <div v-show="commentArr[index]">评论用户：{{`${Cookies.get('username')}`}}</div>
+          <div v-for="(item, index1) in commentArr[index]" :key="index1" class="comment-content">
+            {{ item }}
+          </div>
         </div>
 
         <div class="row-3">
@@ -108,7 +111,7 @@ export default {
         type: item.title,
       });
       if (data) {
-        this.dataList = data;
+        this.dataList = data.reverse();
         console.log("获取数据社区数据列表成功！");
       }
     },
@@ -166,6 +169,14 @@ export default {
     left: 50%;
     transform: translate(-50%);
     width: 40%;
+    .comment-box {
+      margin-top: 5px;
+      .comment-content {
+        color: rgb(175, 170, 170);
+        margin-left: 30px;
+        margin-top: 5px;
+      }
+    }
     .data-card {
       border-radius: 20px;
       margin-top: 20px;
@@ -197,7 +208,7 @@ export default {
           margin-bottom: 5px;
         }
         .content {
-          color: rgb(145, 136, 136);
+          color: rgb(102, 96, 96);
         }
       }
       .row-3 {

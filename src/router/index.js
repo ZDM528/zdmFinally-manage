@@ -30,6 +30,26 @@ const router = new VueRouter({
                     path: '/community/post',
                     name: '我要发贴',
                     component: () => import('@/views/frontend/Post.vue')
+                },
+                {
+                    path: '/share',
+                    name: '项目供需',
+                    component: () => import('@/views/frontend/Share.vue')
+                },
+                {
+                    path: '/share/need',
+                    name: '发布需求',
+                    component: () => import('@/views/frontend/Need.vue')
+                },
+                {
+                    path: '/share/give',
+                    name: '发布供给',
+                    component: () => import('@/views/frontend/Give.vue')
+                },
+                {
+                    path: '/share/person',
+                    name: '个人空间',
+                    component: () => import('@/views/frontend/Person.vue')
                 }
             ]
         },

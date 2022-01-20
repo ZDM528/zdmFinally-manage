@@ -8,6 +8,15 @@ const getCommunityData = (data) => {
     })
 }
 
+const post = (data) => {
+    return request({
+        url: '/addCommunityData',
+        method: 'post',
+        data
+    })
+}
+
 export {
-    getCommunityData
+    getCommunityData,
+    post
 }
