@@ -5,7 +5,7 @@ const getImage = (data) => {
     return request({
         url: '/getImageUrl',
         method: 'get',
-        params:data,
+        params: data,
     })
 }
 
@@ -14,7 +14,7 @@ const saveImage = (data) => {
         url: '/saveImageUrl',
         method: 'post',
         data,
-        headers: { "Content-Type": "multipart/form-data" } 
+        headers: { "Content-Type": "multipart/form-data" }
     })
 }
 

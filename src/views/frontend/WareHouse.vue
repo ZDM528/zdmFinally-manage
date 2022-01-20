@@ -8,8 +8,6 @@
             <el-option label="不限" value="不限"></el-option>
             <el-option label="免费" value="免费"></el-option>
             <el-option label="会员免费" value="会员免费"></el-option>
-            <el-option label="会员特供" value="会员特供"></el-option>
-            <el-option label="单独付费" value="单独付费"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="数据类别">

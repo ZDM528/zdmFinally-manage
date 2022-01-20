@@ -7,7 +7,7 @@
         <ul>
           <li v-for="(item, index) in items" :key="index" @click="optionClick(item)" :class="{ active: item.active }">{{ item.title }}</li>
         </ul>
-        <el-button type="danger" @click="post">我要发贴</el-button>
+        <el-button type="danger" @click="post">我要发帖</el-button>
       </el-card>
     </div>
 
@@ -130,7 +130,7 @@ export default {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    width: 70%;
+    width: 80%;
     font-size: 18px;
     .option-card {
       position: absolute;
@@ -168,7 +168,7 @@ export default {
     top: 110px;
     left: 50%;
     transform: translate(-50%);
-    width: 40%;
+    width: 45%;
     .comment-box {
       margin-top: 5px;
       .comment-content {
@@ -214,7 +214,7 @@ export default {
       .row-3 {
         margin-top: 20px;
         .input {
-          width: 60%;
+          width: 80%;
           margin-right: 15px;
         }
       }

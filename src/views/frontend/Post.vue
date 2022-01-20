@@ -89,7 +89,8 @@ export default {
     border-radius: 20px;
     .title-input {
       width: 50%;
-      margin-left: -30%;
+      position: fixed;
+      left: 90px;
     }
     .btn {
       width: 30%;
