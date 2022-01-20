@@ -27,13 +27,13 @@
         </div>
 
         <!-- 评论区域 -->
-        <div v-for="(item, index) in commentArr" :key="index">
+        <div v-for="(item, index1) in commentArr[index]" :key="index1">
           {{ item }}
         </div>
 
         <div class="row-3">
-          <el-input v-model="comment" placeholder="请输入评论" class="input"></el-input>
-          <el-button type="primary" class="btn" @click="commentSubmit">提交</el-button>
+          <el-input v-model="comment[index]" placeholder="请输入评论" class="input"></el-input>
+          <el-button type="primary" class="btn" @click="commentSubmit(index)">提交</el-button>
         </div>
       </el-card>
     </div>
@@ -42,7 +42,7 @@
 
 <script>
 import Vue from "vue";
-import {getCommunityData} from '../../api/community'
+import { getCommunityData } from "../../api/community";
 import Cookies from "js-cookie";
 export default {
   name: "Community",
@@ -54,19 +54,22 @@ export default {
         { title: "问题互助", active: false },
       ],
       active: false,
-      comment: "",
+      comment: [],
       commentArr: [],
-      sonArr:[],
-      dataList: []
+      hasComment: {},
+      dataList: [],
     };
   },
   created() {
-    if (Cookies.get("content")) {
-      this.commentArr = Cookies.get("content").split(",");
+    for (let i = 0; i < 30; i++) {
+      if (Cookies.get(`content${i}`)) {
+        Vue.set(this.commentArr, i, Cookies.get(`content${i}`).split(","));
+        this.hasComment[i] = true;
+      }
     }
   },
   mounted() {
-    this.getDataList(this.items[0])
+    this.getDataList(this.items[0]);
   },
   computed: {
     Cookies() {
@@ -74,13 +77,21 @@ export default {
     },
   },
   methods: {
-    commentSubmit() {
-
+    commentSubmit(index) {
       if (!Cookies.get("username")) {
         this.$message.error("请先登录！");
       } else {
-        this.commentArr.push(this.comment);
-        Cookies.set("content", this.commentArr);
+        if (!this.hasComment[index]) {
+          this.hasComment[index] = true;
+          Vue.set(this.commentArr, index, []);
+        }
+        this.commentArr[index].push(this.comment[index]);
+        for (let i = 0; i < this.commentArr.length; i++) {
+          let arr = this.commentArr[i];
+          if (arr instanceof Array) {
+            Cookies.set(`content${i}`, arr);
+          }
+        }
       }
     },
     async optionClick(item) {
@@ -89,21 +100,21 @@ export default {
           Vue.set(item, "active", false);
         });
         Vue.set(item, "active", true);
-        this.getDataList(item)
+        this.getDataList(item);
       });
     },
     async getDataList(item) {
       let { data } = await getCommunityData({
-        type: item.title
-      })
+        type: item.title,
+      });
       if (data) {
-        this.dataList = data
-        console.log('获取数据社区数据列表成功！')
+        this.dataList = data;
+        console.log("获取数据社区数据列表成功！");
       }
     },
     post() {
-      this.$router.push('/community/post')
-    }
+      this.$router.push("/community/post");
+    },
   },
 };
 </script>
