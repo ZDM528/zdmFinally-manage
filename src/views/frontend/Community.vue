@@ -5,24 +5,24 @@
       <el-card class="option-card">
         <span style="color: #409eff">数据共享分类</span>
         <ul>
-          <li v-for="(item, index) in items" :key="index" @click="selectStyle(item)" :class="{ active: item.active }">{{ item.title }}</li>
+          <li v-for="(item, index) in items" :key="index" @click="optionClick(item)" :class="{ active: item.active }">{{ item.title }}</li>
         </ul>
       </el-card>
     </div>
 
     <!-- 数据卡片 -->
     <div class="allData-card">
-      <el-card class="data-card">
+      <el-card class="data-card" v-for="(item, index) in dataList" :key="index">
         <div class="row-1">
           <div class="img-wrap">
             <img src="../../assets/img/fish-logo.png" alt="" />
           </div>
-          <span class="name">1111111</span>
+          <span class="name">{{ item.name }}</span>
         </div>
         <div class="row-2">
-          <div class="type">数据分享</div>
-          <div class="title">标题</div>
-          <div class="content">内容</div>
+          <div class="type">{{ item.type }}</div>
+          <div class="title">{{ item.title }}</div>
+          <div class="content">{{ item.content }}</div>
         </div>
 
         <!-- 评论区域 -->
@@ -41,6 +41,7 @@
 
 <script>
 import Vue from "vue";
+import {getCommunityData} from '../../api/community'
 import Cookies from "js-cookie";
 export default {
   name: "Community",
@@ -48,18 +49,23 @@ export default {
     return {
       items: [
         { title: "全部内容", active: true },
-        { title: "数据分享", active: false },
         { title: "资料分享", active: false },
+        { title: "问题互助", active: false },
       ],
       active: false,
       comment: "",
       commentArr: [],
+      sonArr:[],
+      dataList: []
     };
   },
   created() {
     if (Cookies.get("content")) {
       this.commentArr = Cookies.get("content").split(",");
     }
+  },
+  mounted() {
+    this.getDataList(this.items[0])
   },
   computed: {
     Cookies() {
@@ -75,14 +81,24 @@ export default {
         Cookies.set("content", this.commentArr);
       }
     },
-    selectStyle(item) {
+    async optionClick(item) {
       this.$nextTick(function () {
         this.items.forEach(function (item) {
           Vue.set(item, "active", false);
         });
         Vue.set(item, "active", true);
+        this.getDataList(item)
       });
     },
+    async getDataList(item) {
+      let { data } = await getCommunityData({
+        type: item.title
+      })
+      if (data) {
+        this.dataList = data
+        console.log('获取数据社区数据列表成功！')
+      }
+    }
   },
 };
 </script>
@@ -130,12 +146,13 @@ export default {
   }
   .allData-card {
     position: absolute;
-    top: 130px;
+    top: 110px;
     left: 50%;
     transform: translate(-50%);
     width: 40%;
     .data-card {
       border-radius: 20px;
+      margin-top: 20px;
       .row-1 {
         display: flex;
         height: 50px;
@@ -172,9 +189,6 @@ export default {
         .input {
           width: 60%;
           margin-right: 15px;
-        }
-        .btn {
-          width: 15%;
         }
       }
     }
