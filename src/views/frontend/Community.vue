@@ -7,6 +7,7 @@
         <ul>
           <li v-for="(item, index) in items" :key="index" @click="optionClick(item)" :class="{ active: item.active }">{{ item.title }}</li>
         </ul>
+        <el-button type="danger" @click="post">我要发贴</el-button>
       </el-card>
     </div>
 
@@ -74,6 +75,7 @@ export default {
   },
   methods: {
     commentSubmit() {
+
       if (!Cookies.get("username")) {
         this.$message.error("请先登录！");
       } else {
@@ -98,6 +100,9 @@ export default {
         this.dataList = data
         console.log('获取数据社区数据列表成功！')
       }
+    },
+    post() {
+      this.$router.push('/community/post')
     }
   },
 };

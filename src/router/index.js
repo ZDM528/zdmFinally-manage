@@ -25,6 +25,11 @@ const router = new VueRouter({
                     path: '/community',
                     name: '数据社区',
                     component: () => import('@/views/frontend/Community.vue')
+                },
+                {
+                    path: '/community/post',
+                    name: '我要发贴',
+                    component: () => import('@/views/frontend/Post.vue')
                 }
             ]
         },

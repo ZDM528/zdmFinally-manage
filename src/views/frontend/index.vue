@@ -69,7 +69,11 @@ export default {
     },
   },
   created() {
-    this.activeKey = this.$route.path
+    if(this.$route.path === '/community/post') {
+      this.activeKey = '/community'
+    } else {
+      this.activeKey = this.$route.path
+    }
     if (Cookies.get("username") && Cookies.get("username") !== "") {
       this.disabled = true;
     }
