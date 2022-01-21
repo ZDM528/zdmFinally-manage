@@ -9,7 +9,7 @@
       </div>
       <el-menu-item index="/warehouse">数据仓库</el-menu-item>
       <el-menu-item index="/community">数据社区</el-menu-item>
-       <el-submenu index="/share">
+      <el-submenu index="/share">
         <template slot="title">项目供需</template>
         <el-menu-item index="/share/need">发布需求</el-menu-item>
         <el-menu-item index="/share/give">发布供给</el-menu-item>
@@ -32,9 +32,7 @@
     <!-- 登录/注册对话框 -->
     <Dialog :dialogFormVisible="dialogFormVisible" :title="title" :submitType="submitType" @dialogClose="dialogClose" @hasLogin="hasLogin" />
 
-    <keep-alive >
-      <router-view style="padding: 0 10%" @updateScore="updateScore"></router-view>
-    </keep-alive>
+    <router-view style="padding: 0 10%" @updateScore="updateScore"></router-view>
 
     <!-- footer -->
     <!-- <div class="footer">
@@ -74,18 +72,18 @@ export default {
     },
   },
   created() {
-    if(this.$route.path === '/community/post') {
-      this.activeKey = '/community'
+    if (this.$route.path === "/community/post") {
+      this.activeKey = "/community";
     } else {
-      this.activeKey = this.$route.path
+      this.activeKey = this.$route.path;
     }
-    if (Cookies.get("username") ) {
+    if (Cookies.get("username")) {
       this.disabled = true;
     }
     if (Cookies.get("isVip") && Cookies.get("isVip") == "yes") {
       this.isVip = true;
     }
-    if (Cookies.get("score") ) {
+    if (Cookies.get("score")) {
       this.score = Cookies.get("score");
     }
   },

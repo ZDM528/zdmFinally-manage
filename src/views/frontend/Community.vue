@@ -28,15 +28,15 @@
 
         <!-- 评论区域 -->
         <div class="comment-box">
-          <div v-show="commentArr[index]">评论用户：{{`${Cookies.get('username')}`}}</div>
-          <div v-for="(item, index1) in commentArr[index]" :key="index1" class="comment-content">
+          <div v-show="item.comment.length > 0">评论用户：{{ `${Cookies.get("username")}` }}</div>
+          <div v-for="(item, index1) in item.comment" :key="index1" class="comment-content">
             {{ item }}
           </div>
         </div>
 
         <div class="row-3">
           <el-input v-model="comment[index]" placeholder="请输入评论" class="input"></el-input>
-          <el-button type="primary" class="btn" @click="commentSubmit(index)">提交</el-button>
+          <el-button type="primary" class="btn" @click="commentSubmit(index, item)">提交</el-button>
         </div>
       </el-card>
     </div>
@@ -45,7 +45,7 @@
 
 <script>
 import Vue from "vue";
-import { getCommunityData } from "../../api/community";
+import { getCommunityData, addCommunityComment } from "../../api/community";
 import Cookies from "js-cookie";
 export default {
   name: "Community",
@@ -57,26 +57,16 @@ export default {
         { title: "问题互助", active: false },
       ],
       active: false,
+      currentItem: {},
       comment: [],
-      commentArr: [],
+      // commentArr: [],
       hasComment: {},
       dataList: [],
     };
   },
-  created() {
-    for (let i = 0; i < 30; i++) {
-      if (Cookies.get(`content${i}`)) {
-        Vue.set(this.commentArr, i, Cookies.get(`content${i}`).split(","));
-        this.hasComment[i] = true;
-      }
-    }
-    this.bus.$off('updateData'); 
-    this.bus.$on('updateData', () => {
-      this.updateData()
-    })
-  },
   mounted() {
     this.getDataList(this.items[0]);
+    this.currentItem = this.items[0];
   },
   computed: {
     Cookies() {
@@ -84,22 +74,19 @@ export default {
     },
   },
   methods: {
-    commentSubmit(index) {
+    async commentSubmit(index, item) {
       if (!Cookies.get("username")) {
         this.$message.error("请先登录！");
       } else {
-        if (!this.hasComment[index]) {
-          this.hasComment[index] = true;
-          Vue.set(this.commentArr, index, []);
+        let res = await addCommunityComment({ id: item.id, username: Cookies.get("username") });
+        if (res.code == 200) {
+          this.getDataList(this.currentItem);
         }
-        this.commentArr[index].push(this.comment[index]);
-        for (let i = 0; i < this.commentArr.length; i++) {
-          let arr = this.commentArr[i];
-          if (arr instanceof Array) {
-            Cookies.set(`content${i}`, arr);
-          }
-        }
-        this.comment[index] = null
+        // if (!this.hasComment[index]) {
+        //   this.hasComment[index] = true;
+        //   Vue.set(this.commentArr, index, []);
+        // }
+        // this.commentArr[index].push(this.comment[index]);
       }
     },
     async optionClick(item) {
@@ -108,6 +95,7 @@ export default {
           Vue.set(item, "active", false);
         });
         Vue.set(item, "active", true);
+        this.currentItem = item;
         this.getDataList(item);
       });
     },
@@ -117,21 +105,13 @@ export default {
       });
       if (data) {
         this.dataList = data.reverse();
+        console.log(this.dataList);
         console.log("获取数据社区数据列表成功！");
       }
     },
     post() {
       this.$router.push("/community/post");
     },
-    updateData() {
-      // console.log('兄弟组件传值成功')
-      for(let i=1; i<this.dataList.length-1 ;i++) {
-        if(Cookies.get(`content${i-1}`)) {
-          Cookies.set(`content${i}`, Cookies.get(`content${i-1}`))
-        }
-      }
-      Cookies.remove(`content0`)
-    }
   },
 };
 </script>

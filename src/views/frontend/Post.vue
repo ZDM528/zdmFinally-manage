@@ -59,12 +59,12 @@ export default {
       if (Cookies.get("username")) {
         this.$refs[formName].validate(async (valid) => {
           if (valid) {
+            this.postForm.name = Cookies.get("username");
             let res = await post(this.postForm);
             if (res.code === 200) {
               this.$message.success("发布成功！");
               this.$router.push("/community");
               this.$refs[formName].resetFields();
-              this.bus.$emit('updateData')
             } else {
               this.$message.error("发布失败！");
             }
