@@ -186,7 +186,7 @@ export default {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    width: 800px;
+    width: 65%;
     border-radius: 20px;
     .el-table {
       margin-bottom: 20px;

@@ -111,7 +111,7 @@ export default {
     },
     post() {
       this.$router.push("/community/post");
-    },
+    }
   },
 };
 </script>

@@ -24,10 +24,26 @@ const addProjectData = (data) => {
   })
 }
 
+const getPersonData = (data) => {
+  return request({
+    url: '/getPersonData',
+    method: 'get',
+    params: data
+  })
+}
 
+const download = (data) => {
+  return request({
+    url: '/downloadPersonData',
+    method: 'get',
+    params: data
+  })
+}
 
 export {
   getNeed,
   addProjectData,
-  addUploadFile
+  addUploadFile,
+  getPersonData,
+  download
 }
