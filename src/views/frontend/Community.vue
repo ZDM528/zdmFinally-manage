@@ -70,6 +70,10 @@ export default {
         this.hasComment[i] = true;
       }
     }
+    this.bus.$off('updateData'); 
+    this.bus.$on('updateData', () => {
+      this.updateData()
+    })
   },
   mounted() {
     this.getDataList(this.items[0]);
@@ -95,6 +99,7 @@ export default {
             Cookies.set(`content${i}`, arr);
           }
         }
+        this.comment[index] = null
       }
     },
     async optionClick(item) {
@@ -118,6 +123,15 @@ export default {
     post() {
       this.$router.push("/community/post");
     },
+    updateData() {
+      // console.log('兄弟组件传值成功')
+      for(let i=1; i<this.dataList.length-1 ;i++) {
+        if(Cookies.get(`content${i-1}`)) {
+          Cookies.set(`content${i}`, Cookies.get(`content${i-1}`))
+        }
+      }
+      Cookies.remove(`content0`)
+    }
   },
 };
 </script>

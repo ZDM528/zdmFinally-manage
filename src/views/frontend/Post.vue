@@ -64,6 +64,7 @@ export default {
               this.$message.success("发布成功！");
               this.$router.push("/community");
               this.$refs[formName].resetFields();
+              this.bus.$emit('updateData')
             } else {
               this.$message.error("发布失败！");
             }

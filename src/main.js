@@ -10,6 +10,7 @@ Cookies.remove("id")
 Cookies.remove("isVip")
 Cookies.remove("score")
 
+Vue.prototype.bus = new Vue()
 Vue.use(Element);
 Vue.config.productionTip = false;
 
