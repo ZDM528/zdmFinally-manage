@@ -28,8 +28,8 @@
 
         <!-- 评论区域 -->
         <div class="comment-box">
-          <div v-show="item.comment.length > 0">评论用户：{{ `${Cookies.get("username")}` }}</div>
           <div v-for="(item, index1) in item.comment" :key="index1" class="comment-content">
+            <div v-show="item.comment.length>0">评论用户：{{ `${Cookies.get("username")}` }}</div>
             {{ item }}
           </div>
         </div>
