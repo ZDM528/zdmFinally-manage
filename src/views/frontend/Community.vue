@@ -28,9 +28,11 @@
 
         <!-- 评论区域 -->
         <div class="comment-box">
-          <div v-for="(item, index1) in item.comment" :key="index1" class="comment-content">
-            <div v-show="item.comment.length>0">评论用户：{{ `${Cookies.get("username")}` }}</div>
-            {{ item }}
+          <div v-for="(name, index) in commentName(item.comment)" :key="index">
+            <div>评论用户：{{ name }}</div>
+            <div v-for="(content, index1) in item.comment[name]" :key="index1" class="comment-content">
+              {{ content }}
+            </div>
           </div>
         </div>
 
@@ -59,8 +61,6 @@ export default {
       active: false,
       currentItem: {},
       comment: [],
-      // commentArr: [],
-      hasComment: {},
       dataList: [],
     };
   },
@@ -72,21 +72,22 @@ export default {
     Cookies() {
       return Cookies;
     },
+    commentName() {
+      return function (item) {
+        return Object.keys(item);
+      };
+    },
   },
   methods: {
     async commentSubmit(index, item) {
       if (!Cookies.get("username")) {
         this.$message.error("请先登录！");
       } else {
-        let res = await addCommunityComment({ id: item.id, username: Cookies.get("username") });
+        let res = await addCommunityComment({ id: item.id, comment: this.comment[index], username: Cookies.get("username") });
         if (res.code == 200) {
           this.getDataList(this.currentItem);
+          this.comment[index]=''
         }
-        // if (!this.hasComment[index]) {
-        //   this.hasComment[index] = true;
-        //   Vue.set(this.commentArr, index, []);
-        // }
-        // this.commentArr[index].push(this.comment[index]);
       }
     },
     async optionClick(item) {
@@ -105,13 +106,13 @@ export default {
       });
       if (data) {
         this.dataList = data.reverse();
-        console.log(this.dataList);
         console.log("获取数据社区数据列表成功！");
       }
     },
+    getComment() {},
     post() {
       this.$router.push("/community/post");
-    }
+    },
   },
 };
 </script>
