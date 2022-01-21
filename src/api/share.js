@@ -8,6 +8,14 @@ const getNeed = (data) => {
   })
 }
 
+const addUploadFile = (data) => {
+  return request({
+    url: '/addUploadFile',
+    method: 'post',
+    data
+  })
+}
+
 const addProjectData = (data) => {
   return request({
     url: '/addProjectData',
@@ -17,7 +25,9 @@ const addProjectData = (data) => {
 }
 
 
+
 export {
   getNeed,
-  addProjectData
+  addProjectData,
+  addUploadFile
 }

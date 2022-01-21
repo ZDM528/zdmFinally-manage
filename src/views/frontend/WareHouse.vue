@@ -132,7 +132,7 @@ export default {
     },
     //下载
     async download(row) {
-      if (Cookies.get("username") && Cookies.get("username") !== "") {
+      if (Cookies.get("username") ) {
         if (row.access === "免费" || (row.access === "会员免费" && Cookies.get("isVip") == "yes")) {
           this.getDownload(row);
         } else {
@@ -144,7 +144,7 @@ export default {
     },
     //积分兑换
     async useScore(row) {
-      if (Cookies.get("username") && Cookies.get("username") !== "") {
+      if (Cookies.get("username") ) {
         if (parseInt(row.score) > parseInt(Cookies.get("score"))) {
           this.$message.error("积分不足以兑换数据集");
         } else {

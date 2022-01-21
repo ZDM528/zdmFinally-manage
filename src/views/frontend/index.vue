@@ -79,13 +79,13 @@ export default {
     } else {
       this.activeKey = this.$route.path
     }
-    if (Cookies.get("username") && Cookies.get("username") !== "") {
+    if (Cookies.get("username") ) {
       this.disabled = true;
     }
     if (Cookies.get("isVip") && Cookies.get("isVip") == "yes") {
       this.isVip = true;
     }
-    if (Cookies.get("score") && Cookies.get("score") !== "") {
+    if (Cookies.get("score") ) {
       this.score = Cookies.get("score");
     }
   },

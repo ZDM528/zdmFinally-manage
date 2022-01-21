@@ -88,19 +88,23 @@ export default {
   },
   methods: {
     publishSubmit(formName) {
-      this.$refs[formName].validate(async valid => {
-        if (valid) {
-          let res = await getNeed(this.publishForm)
-          if (res.code === 200) {
-            this.$message.success('发布成功！')
-            this.$refs[formName].resetFields()
+      if(Cookies.get("username")){
+        this.$refs[formName].validate(async valid => {
+          if (valid) {
+            let res = await getNeed(this.publishForm)
+            if (res.code === 200) {
+              this.$message.success('发布成功！')
+              this.$refs[formName].resetFields()
+            } else {
+              this.$message.error('发布失败！')
+            }
           } else {
-            this.$message.error('发布失败！')
+            return false
           }
-        } else {
-          return false
-        }
-      })
+        })
+      }else{
+        this.$message.error("请先登录")
+      }
     }
   }
 }

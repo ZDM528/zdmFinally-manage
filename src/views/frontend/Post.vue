@@ -12,8 +12,7 @@
           <el-input v-model="postForm.title" maxlength="15" show-word-limit placeholder="请选择主题"></el-input>
         </el-form-item>
         <el-form-item prop="content">
-          <el-input type="textarea" placeholder="请输入内容" v-model="postForm.content" 
-            maxlength="100" show-word-limit :rows="6"></el-input>
+          <el-input type="textarea" placeholder="请输入内容" v-model="postForm.content" maxlength="100" show-word-limit :rows="6"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="danger" class="btn" @click="postSubmit('ruleForm')">发布</el-button>
@@ -24,10 +23,10 @@
 </template>
 
 <script>
-import { post } from '../../api/community'
-import Cookies from 'js-cookie'
+import { post } from "../../api/community";
+import Cookies from "js-cookie";
 export default {
-  name: 'Post',
+  name: "Post",
   data() {
     var validateType = (rule, value, callback) => {
       if (value === "") {
@@ -43,37 +42,41 @@ export default {
     };
     return {
       postForm: {
-        type: '',
-        title: '',
-        content: '',
-        name: Cookies.get('username')
+        type: "",
+        title: "",
+        content: "",
+        name: Cookies.get("username"),
       },
       postRules: {
-        type: [{ validator: validateType, trigger: 'blur' }],
-        title: [{ validator: validateTitle, trigger: 'blur' }],
-        content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
-      }
-    }
+        type: [{ validator: validateType, trigger: "blur" }],
+        title: [{ validator: validateTitle, trigger: "blur" }],
+        content: [{ required: true, message: "请输入内容", trigger: "blur" }],
+      },
+    };
   },
   methods: {
     postSubmit(formName) {
-      this.$refs[formName].validate(async valid => {
-        if (valid) {
-          let res = await post(this.postForm)
-          if(res.code === 200) {
-            this.$message.success('发布成功！')
-            this.$router.push('/community')
-            this.$refs[formName].resetFields()
+      if (Cookies.get("username")) {
+        this.$refs[formName].validate(async (valid) => {
+          if (valid) {
+            let res = await post(this.postForm);
+            if (res.code === 200) {
+              this.$message.success("发布成功！");
+              this.$router.push("/community");
+              this.$refs[formName].resetFields();
+            } else {
+              this.$message.error("发布失败！");
+            }
           } else {
-            this.$message.error('发布失败！')
+            return false;
           }
-        } else {
-          return false
-        }
-      })
-    }
-  }
-}
+        });
+      } else {
+        this.$message.error("请先登录");
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
