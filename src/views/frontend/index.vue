@@ -4,12 +4,12 @@
     <el-menu :default-active="activeKey" class="el-menu-demo" mode="horizontal" background-color="#fff" text-color="#000" :active-text-color="variables.menuActiveText" style="border-shadow: 10px 0px 10px rgba(0, 0, 0, 1)" @select="handleSelect" router>
       <div class="logo-img">
         <a href="/">
-          <img src="../../assets/img/logo.png" alt="" />
+          <img src="../../assets/img/fish-logo.png" alt="" />
         </a>
       </div>
       <el-menu-item index="/warehouse">数据仓库</el-menu-item>
       <el-menu-item index="/community">数据社区</el-menu-item>
-       <el-submenu index="/share">
+      <el-submenu index="/share">
         <template slot="title">项目供需</template>
         <el-menu-item index="/share/need">发布需求</el-menu-item>
         <el-menu-item index="/share/give">发布供给</el-menu-item>
@@ -32,9 +32,7 @@
     <!-- 登录/注册对话框 -->
     <Dialog :dialogFormVisible="dialogFormVisible" :title="title" :submitType="submitType" @dialogClose="dialogClose" @hasLogin="hasLogin" />
 
-    <keep-alive >
-      <router-view style="padding: 0 10%" @updateScore="updateScore"></router-view>
-    </keep-alive>
+    <router-view style="padding: 0 10%" @updateScore="updateScore"></router-view>
 
     <!-- footer -->
     <!-- <div class="footer">
@@ -74,18 +72,18 @@ export default {
     },
   },
   created() {
-    if(this.$route.path === '/community/post') {
-      this.activeKey = '/community'
+    if (this.$route.path === "/community/post") {
+      this.activeKey = "/community";
     } else {
-      this.activeKey = this.$route.path
+      this.activeKey = this.$route.path;
     }
-    if (Cookies.get("username") ) {
+    if (Cookies.get("username")) {
       this.disabled = true;
     }
     if (Cookies.get("isVip") && Cookies.get("isVip") == "yes") {
       this.isVip = true;
     }
-    if (Cookies.get("score") ) {
+    if (Cookies.get("score")) {
       this.score = Cookies.get("score");
     }
   },
@@ -150,13 +148,13 @@ body {
     padding-right: 10%;
     .logo-img {
       margin-right: 40px;
-      width: 50px;
+      width: 60px;
       a {
         display: inline-block;
         img {
           padding: 10% 0;
           width: 100%;
-          height: 40%;
+          height: 50%;
         }
       }
     }
