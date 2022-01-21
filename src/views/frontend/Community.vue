@@ -126,11 +126,10 @@ export default {
     updateData() {
       // console.log('兄弟组件传值成功')
       for(let i=1; i<this.dataList.length-1 ;i++) {
-        if(Cookies.get(`content${i-1}`)) {
-          Cookies.set(`content${i}`, Cookies.get(`content${i-1}`))
+        if(this.commentArr[i]) {
+          this.commentArr[i] = this.commentArr[i-1] 
         }
       }
-      Cookies.remove(`content0`)
     }
   },
 };

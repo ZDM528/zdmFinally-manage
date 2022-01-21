@@ -4,11 +4,11 @@ import router from './router';
 import store from './store';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import Cookies from "js-cookie";
-Cookies.remove("username")
-Cookies.remove("id")
-Cookies.remove("isVip")
-Cookies.remove("score")
+// import Cookies from "js-cookie";
+// Cookies.remove("username")
+// Cookies.remove("id")
+// Cookies.remove("isVip")
+// Cookies.remove("score")
 
 Vue.prototype.bus = new Vue()
 Vue.use(Element);
