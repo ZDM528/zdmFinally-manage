@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-position="left" label-width="0px" class="loginForm">
-      <h3 class="title">后台系统</h3>
+      <h3 class="title">数据后台系统</h3>
       <el-form-item prop="username">
         <el-input type="text" placeholder="用户名" v-model="ruleForm.username" autocomplete="off"></el-input>
       </el-form-item>
@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
+import { login } from "../../api/user";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -47,12 +47,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          const res = await this.$store.dispatch("user/login", {  //登录信息存放在store和cookie上
-            username: this.ruleForm.username,
-            password: this.ruleForm.password,
-          });
+          const res = await login({ username: this.ruleForm.username, password: this.ruleForm.password });
           if (res.code === 200) {
-            Cookies.set("username", this.ruleForm.username);
             this.$message({
               message: "登录成功",
               type: "success",

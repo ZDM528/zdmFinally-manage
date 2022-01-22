@@ -13,7 +13,7 @@
         <template slot="title">项目供需</template>
         <el-menu-item index="/share/need">发布需求</el-menu-item>
         <el-menu-item index="/share/give">发布供给</el-menu-item>
-        <el-menu-item index="/share/person">个人空间</el-menu-item>
+        <el-menu-item index="/share/person" :disabled="!disabled">个人空间</el-menu-item>
       </el-submenu>
       <div class="login">
         <el-button type="warning" @click="pay" :disabled="isVip">{{ !isVip ? "充值 VIP" : "已是Vip会员" }}</el-button>
