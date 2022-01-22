@@ -59,20 +59,42 @@ const router = new VueRouter({
             component: () => import("@/views/login/index"),
         },
         {
-            path: '/student',
-            name: '学生管理',
-            meta: { title: '学生管理', icon: 'el-icon-s-management' },
+            path: '/userInfo',
+            name: '用户管理',
+            meta: { title: '用户管理', icon: 'el-icon-s-management' },
             component: Layout,
-            redirect: '/student/information',
+            redirect: '/demostic',
             children: [
                 {
-                    path: '/information',
-                    name: '学生信息',
-                    component: () => import('@/views/studentInfo/index.vue'),
-                    meta: { title: '学生信息', icon: 'el-icon-edit' }
+                    path: '/demostic',
+                    name: '普通用户',
+                    component: () => import('@/views/backend/Demostic.vue'),
+                    meta: { title: '普通用户', icon: 'el-icon-edit' }
                 },
+                {
+                    path: '/member',
+                    name: '会员用户',
+                    component: () => import('@/views/backend/Member.vue'),
+                    meta: { title: '会员用户', icon: 'el-icon-edit' }
+                }
             ]
         },
+        {
+            path: '/dataInfo',
+            name: '数据管理',
+            meta: { title: '数据管理', icon: 'el-icon-s-management' },
+            component: Layout,
+            redirect: '/dataList',
+            children: [
+                {
+                    path: '/dataList',
+                    name: '数据列表',
+                    component: () => import('@/views/backend/DataList.vue'),
+                    meta: { title: '数据列表', icon: 'el-icon-edit' },
+                }
+            ]
+        },
+        
         { path: '*', redirect: '/404', hidden: true }
     ]
 })

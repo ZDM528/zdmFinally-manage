@@ -121,7 +121,9 @@ export default {
     suitLogin() {
       this.$router.replace("/login");
     },
-    enterPerson() {},
+    enterPerson() {
+      this.$router.replace('/')
+    },
     handleAdd() {},
     changeInfo() {
       this.dialogVisible = true;

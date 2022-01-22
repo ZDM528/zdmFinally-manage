@@ -3,7 +3,7 @@
     <!-- 导航栏 -->
     <el-menu :default-active="activeKey" class="el-menu-demo" mode="horizontal" background-color="#fff" text-color="#000" :active-text-color="variables.menuActiveText" style="border-shadow: 10px 0px 10px rgba(0, 0, 0, 1)" @select="handleSelect" router>
       <div class="logo-img">
-        <a href="/">
+        <a href="#/login">
           <img src="../../assets/img/fish-logo.png" alt="" />
         </a>
       </div>

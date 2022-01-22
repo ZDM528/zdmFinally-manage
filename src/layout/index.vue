@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  background-color: rgba(157, 161, 160, 0.479);
+}
 .el-container {
   height: 100%;
   img {

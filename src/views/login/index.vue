@@ -57,7 +57,7 @@ export default {
               message: "登录成功",
               type: "success",
             });
-            this.$router.replace({ path: "/student" });
+            this.$router.replace({ path: "/userInfo" });
           } else {
             this.$message.error("用户名或密码错误");
           }
