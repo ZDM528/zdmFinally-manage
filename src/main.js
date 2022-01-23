@@ -7,7 +7,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 // Cookies.remove("username")
 // Cookies.remove("id")
 // Cookies.remove("isVip")
-// Cookies.remove("score")
 
 Vue.prototype.bus = new Vue()
 Vue.use(Element);

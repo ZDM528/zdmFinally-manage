@@ -4,7 +4,7 @@
       <div class="info">
         <div class="person-info">基本信息</div>
         <div class="common">用户名： {{ `${Cookies.get("username")}` }}</div>
-        <div class="common">个人积分： {{ `${Cookies.get("score")}` }}</div>
+        <div class="common">个人积分： {{ score }}</div>
         <div class="common">
           <span class="need">我的需求：</span>
           <!-- 我的需求 -->
@@ -41,16 +41,19 @@
 <script>
 import { getPersonData, download } from "../../api/share";
 import Cookies from "js-cookie";
+import { getScore } from "../../api/loginRegister";
 export default {
   name: "Person",
   data() {
     return {
       needData: [],
       giveData: [],
+      score: 0,
     };
   },
   mounted() {
     this.getPersonData();
+    this.getScoreData();
   },
   computed: {
     Cookies() {
@@ -70,6 +73,12 @@ export default {
         console.log(this.giveData);
       }
     },
+    async getScoreData() {
+      let res = await getScore({ id: Cookies.get("id") });
+      if (res.code == 200) {
+        this.score = res.data;
+      }
+    },
     async detailClick(row) {
       let res = await download({
         id: row.id,
@@ -84,7 +93,7 @@ export default {
         document.body.appendChild(downloadElement);
         downloadElement.click(); // 点击下载
         document.body.removeChild(downloadElement); // 下载完成移除元素
-        window.URL.revokeObjectURL(href); // 释放掉blob对象 
+        window.URL.revokeObjectURL(href); // 释放掉blob对象
         console.log("获取列表数据成功");
         this.$message.success("下载成功！");
       } else {

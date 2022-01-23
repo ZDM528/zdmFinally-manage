@@ -16,7 +16,16 @@ const register = (data) => {
     })
 }
 
+const getScore = (data) => {
+    return request({
+        url: '/getScore',
+        method: 'post',
+        data
+    })
+}
+
 export {
     login,
-    register
+    register,
+    getScore
 }

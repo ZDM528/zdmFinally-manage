@@ -73,7 +73,6 @@ export default {
               this.$emit("dialogClose");
               Cookies.set("username", this.ruleForm.username);
               Cookies.set("id", result.data.id);
-              Cookies.set("score", result.data.score);
               Cookies.set("isVip", result.data.isVip);
               this.$emit("hasLogin");
             } else {

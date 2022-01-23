@@ -55,6 +55,7 @@ import DetailDialog from "./DetailDialog.vue";
 import Cookies from "js-cookie";
 export default {
   name: "WareHouse",
+  props: ["score"],
   data() {
     return {
       optionForm: {
@@ -132,7 +133,7 @@ export default {
     },
     //下载
     async download(row) {
-      if (Cookies.get("username") ) {
+      if (Cookies.get("username")) {
         if (row.access === "免费" || (row.access === "会员免费" && Cookies.get("isVip") == "yes")) {
           this.getDownload(row);
         } else {
@@ -144,17 +145,15 @@ export default {
     },
     //积分兑换
     async useScore(row) {
-      if (Cookies.get("username") ) {
-        if (parseInt(row.score) > parseInt(Cookies.get("score"))) {
+      if (Cookies.get("username")) {
+        if (parseInt(row.score) > parseInt(this.score)) {
           this.$message.error("积分不足以兑换数据集");
         } else {
           this.getDownload(row);
-          let score = parseInt(Cookies.get("score")) - parseInt(row.score);
+          let score = parseInt(this.score) - parseInt(row.score);
           let res = await updateScore({ id: Cookies.get("id"), username: Cookies.get("username"), score: score });
           if (res.code == 200) {
             this.$message.success("兑换成功");
-            Cookies.set("score", score);
-            console.log("cookie", Cookies.get("score"));
             this.$emit("updateScore");
           }
         }

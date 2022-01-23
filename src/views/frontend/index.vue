@@ -32,7 +32,7 @@
     <!-- 登录/注册对话框 -->
     <Dialog :dialogFormVisible="dialogFormVisible" :title="title" :submitType="submitType" @dialogClose="dialogClose" @hasLogin="hasLogin" />
 
-    <router-view style="padding: 0 10%" @updateScore="updateScore"></router-view>
+    <router-view style="padding: 0 10%" @updateScore="updateScore" :score="score"></router-view>
 
     <!-- footer -->
     <!-- <div class="footer">
@@ -46,6 +46,7 @@ import variables from "@/styles/_variable.scss";
 import Dialog from "../frontend/components/Dialog.vue";
 import PayDialog from "./PayDialog";
 import Cookies from "js-cookie";
+import { getScore } from "../../api/loginRegister";
 export default {
   data() {
     return {
@@ -80,12 +81,7 @@ export default {
     if (Cookies.get("username")) {
       this.disabled = true;
     }
-    if (Cookies.get("isVip") && Cookies.get("isVip") == "yes") {
-      this.isVip = true;
-    }
-    if (Cookies.get("score")) {
-      this.score = Cookies.get("score");
-    }
+    this.getScoreData();
   },
   methods: {
     handleSelect() {},
@@ -115,8 +111,12 @@ export default {
       if (Cookies.get("isVip") && Cookies.get("isVip") == "yes") {
         this.isVip = true;
       }
-      if (Cookies.get("score") && Cookies.get("score") !== "") {
-        this.score = Cookies.get("score");
+      this.getScoreData();
+    },
+    async getScoreData() {
+      let res = await getScore({ id: Cookies.get("id") });
+      if (res.code == 200) {
+        this.score = res.data;
       }
     },
     closePayDialog() {
@@ -127,9 +127,7 @@ export default {
       this.isVip = true;
     },
     updateScore() {
-      if (Cookies.get("score") && Cookies.get("score") !== "") {
-        this.score = Cookies.get("score");
-      }
+      this.getScoreData();
     },
   },
 };
