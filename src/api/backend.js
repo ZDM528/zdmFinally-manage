@@ -104,6 +104,35 @@ const updateCommunityList = (data) => {
   })
 }
 
+const addCommunityList = (data) => {
+  return request({
+    url: '/addCommunityList',
+    method: 'post',
+    data
+  })
+}
+const getCommentList = (data) => {
+  return request({
+    url: '/getCommentList',
+    method: 'get',
+    params: data
+  })
+}
+const updateCommentList = (data) => {
+  return request({
+    url: '/updateCommentList',
+    method: 'get',
+    params: data
+  })
+}
+const deleteCommemtList = (data) => {
+  return request({
+    url: '/deleteCommemtList',
+    method: 'post',
+    data
+  })
+}
+
 export {
   getUser,
   editUser,
@@ -117,5 +146,9 @@ export {
   deleteNeed,
   getCommunityList,
   deleteCommunityList,
-  updateCommunityList
+  updateCommunityList,
+  addCommunityList,
+  getCommentList,
+  updateCommentList,
+  deleteCommemtList
 }

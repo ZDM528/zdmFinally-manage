@@ -105,7 +105,7 @@ const router = new VueRouter({
                     path: '/userNeed',
                     name: '用户需求',
                     component: () => import('@/views/backend/UserNeed.vue'),
-                    meta: { title: '数据列表', icon: 'el-icon-edit' },
+                    meta: { title: '用户需求', icon: 'el-icon-edit' },
                 }
             ]
         },
@@ -121,6 +121,12 @@ const router = new VueRouter({
                     name: '数据社区',
                     component: () => import('@/views/backend/DataCommunity.vue'),
                     meta: { title: '数据社区', icon: 'el-icon-edit' },
+                },
+                {
+                    path: '/commentCommunity',
+                    name: '评论社区',
+                    component: () => import('@/views/backend/CommentCommunity.vue'),
+                    meta: { title: '评论社区', icon: 'el-icon-edit' },
                 }
             ]
         },

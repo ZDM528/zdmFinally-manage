@@ -14,7 +14,9 @@
         <el-form-item>
           <el-button type="primary" @click="dataSubmit">查询</el-button>
         </el-form-item>
+        <el-button type="danger" @click="publish" class="btn">发布</el-button>
       </el-form>
+
 
       <!-- 数据列表 -->
       <el-table :data="dataList" border style="width: 100%">
@@ -37,16 +39,21 @@
 
     <!-- 修改对话框 -->
     <edit-community-dialog :showCommunityDialog="showCommunityDialog" :dataObj="dataObj" @dialogClosed="dialogClosed"></edit-community-dialog>
+  
+    <!-- 发布对话框 -->
+    <publish-dialog :showPublishDialog="showPublishDialog" @dialogClosed="dialogClose"></publish-dialog>
   </div>
 </template>
 
 <script>
 import { getCommunityList, deleteCommunityList } from '../../api/backend'
 import EditCommunityDialog from './EditCommunityDialog.vue'
+import PublishDialog from './PublishDialog.vue'
 export default {
   name: 'DataCommunity',
   components: {
-    EditCommunityDialog
+    EditCommunityDialog,
+    PublishDialog
   },
   data() {
     return {
@@ -59,7 +66,8 @@ export default {
       pageSize: 10, //每页数据条数
       currentPage: 1, //当前页数
       dataObj: {},
-      showCommunityDialog: false
+      showCommunityDialog: false,
+      showPublishDialog: false
     }
   },
   mounted() {
@@ -112,9 +120,19 @@ export default {
       this.showCommunityDialog = true
       this.dataObj = JSON.parse(JSON.stringify(row))
     },
+    //修改对话框关闭
     dialogClosed() {
       this.showCommunityDialog = false
       this.getData()
+    },
+    //发布对话框关闭
+    dialogClose() {
+      this.showPublishDialog = false
+      this.getData()
+    },
+    //发布
+    publish() {
+      this.showPublishDialog = true
     }
   }
 }
@@ -131,6 +149,9 @@ export default {
     transform: translate(-50%);
     width: 85%;
     border-radius: 20px;
+    .btn {
+      width: 10%;
+    }
   }
 }
 </style>

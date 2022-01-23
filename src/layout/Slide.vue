@@ -1,5 +1,5 @@
 <template>
-  <el-menu :text-color="variables.menuText" :active-text-color="variables.$menuActiveText" :background-color="variables.menuBg" class="myMenu" router :default-active="activeMenu" :collapse="isCollapse">
+  <el-menu :text-color="variables.menuText" :active-text-color="variables.$menuActiveText" :background-color="variables.menuBg" class="myMenu" router :default-active="activeMenu" :collapse="isCollapse" unique-opened>
     <slide-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" :isCollapse="isCollapse"/>
   </el-menu>
 </template>
