@@ -32,13 +32,13 @@ export default {
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入密码"));
+        callback(new Error("密码不能为空"));
       }
       callback();
     };
     var validateUser = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入用户名"));
+        callback(new Error("用户名不能为空"));
       }
       callback();
     };

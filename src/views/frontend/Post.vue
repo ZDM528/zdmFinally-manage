@@ -9,7 +9,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="帖子标题" prop="title">
-          <el-input v-model="postForm.title" maxlength="15" show-word-limit placeholder="请选择主题"></el-input>
+          <el-input v-model="postForm.title" maxlength="15" show-word-limit placeholder="请输入帖子标题"></el-input>
         </el-form-item>
         <el-form-item prop="content">
           <el-input type="textarea" placeholder="请输入内容" v-model="postForm.content" maxlength="100" show-word-limit :rows="6"></el-input>
@@ -36,7 +36,7 @@ export default {
     };
     var validateTitle = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入帖子标题"));
+        callback(new Error("帖子标题不能为空"));
       }
       callback();
     };
@@ -50,7 +50,7 @@ export default {
       postRules: {
         type: [{ validator: validateType, trigger: "blur" }],
         title: [{ validator: validateTitle, trigger: "blur" }],
-        content: [{ required: true, message: "请输入内容", trigger: "blur" }],
+        content: [{ required: true, message: "内容不能为空", trigger: "blur" }],
       },
     };
   },

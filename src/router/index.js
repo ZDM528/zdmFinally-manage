@@ -94,7 +94,36 @@ const router = new VueRouter({
                 }
             ]
         },
-        
+        {
+            path: '/needInfo',
+            name: '需求管理',
+            meta: { title: '需求管理', icon: 'el-icon-s-management' },
+            component: Layout,
+            redirect: '/userNeed',
+            children: [
+                {
+                    path: '/userNeed',
+                    name: '用户需求',
+                    component: () => import('@/views/backend/UserNeed.vue'),
+                    meta: { title: '数据列表', icon: 'el-icon-edit' },
+                }
+            ]
+        },
+        {
+            path: '/communityInfo',
+            name: '社区管理',
+            meta: { title: '社区管理', icon: 'el-icon-s-management' },
+            component: Layout,
+            redirect: '/dataCommunity',
+            children: [
+                {
+                    path: '/dataCommunity',
+                    name: '数据社区',
+                    component: () => import('@/views/backend/DataCommunity.vue'),
+                    meta: { title: '数据社区', icon: 'el-icon-edit' },
+                }
+            ]
+        },
         { path: '*', redirect: '/404', hidden: true }
     ]
 })

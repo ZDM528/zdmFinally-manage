@@ -80,8 +80,8 @@ export default {
     }
     if (Cookies.get("username")) {
       this.disabled = true;
-    }
     this.getScoreData();
+    }
   },
   methods: {
     handleSelect() {},

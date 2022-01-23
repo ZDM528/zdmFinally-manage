@@ -39,13 +39,13 @@ export default {
   data() {
     var validateTitle = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入标题"));
+        callback(new Error("标题不能为空"));
       }
       callback();
     };
     var validateDetail = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入详细信息"));
+        callback(new Error("详细信息不能为空"));
       }
       callback();
     };
@@ -57,7 +57,7 @@ export default {
     };
     var validateName = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入联系人姓名"));
+        callback(new Error("联系人不能为空"));
       }
       callback();
     };

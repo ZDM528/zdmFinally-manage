@@ -2,13 +2,13 @@
   <el-dialog title="修改" :visible.sync="showDialog" width="50%" @close="dialogClosed" class="dialog">
     <el-form :model="dataForm" status-icon :rules="dataRules" ref="dataForm" label-width="80px" class="dataForm">
       <el-form-item prop="name" label="名称" class="input">
-        <el-input type="text" placeholder="名称" v-model="dataForm.name" autocomplete="off"></el-input>
+        <el-input type="text" placeholder="请输入数据名称" v-model="dataForm.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="基本信息" prop="info">
           <el-input type="textarea" placeholder="请输入基本信息" v-model="dataForm.info" maxlength="100" show-word-limit :rows="6"></el-input>
         </el-form-item>
       <el-form-item prop="score" label="兑换积分" class="input">
-        <el-input type="text" placeholder="兑换积分" v-model="dataForm.score" autocomplete="off"></el-input>
+        <el-input type="text" placeholder="请输入兑换积分" v-model="dataForm.score" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item prop="access" label="价格">
         <el-select v-model="dataForm.access" placeholder="请选择价格" class="option-box">
@@ -57,19 +57,29 @@ export default {
   data() {
     var validateName = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入数据名称"));
+        callback(new Error("数据名称不能为空"));
       }
       callback();
     };
     var validateInfo = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入基本信息"));
+        callback(new Error("基本信息不能为空"));
       }
       callback();
     };
     var validateScore = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入兑换积分"));
+        callback(new Error("兑换积分不能为空"));
+      } else {
+        if(this.dataForm.access == '免费') {
+          if(value != 0) {
+            callback(new Error("兑换积分只能为0"));
+          }
+        } else {
+          if(value <= 0) {
+            callback(new Error("兑换积分需大于0"));
+          }
+        }
       }
       callback();
     };
@@ -115,6 +125,7 @@ export default {
   },
   methods: {
     dialogClosed() {
+      this.$refs.dataForm.resetFields()
       this.$emit('dialogClosed')
     },
     dataSubmit(formName) {

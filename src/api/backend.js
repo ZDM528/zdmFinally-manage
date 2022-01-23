@@ -56,6 +56,54 @@ const updateData = (data) => {
   })
 }
 
+const getNeed = (data) => {
+  return request({
+    url: '/getNeed',
+    method: 'get',
+    params: data
+  })
+}
+
+const updateNeed = (data) => {
+  return request({
+    url: '/updateNeed',
+    method: 'post',
+    data
+  })
+}
+
+const deleteNeed = (data) => {
+  return request({
+    url: '/deleteNeed',
+    method: 'post',
+    data
+  })
+}
+
+const getCommunityList = (data) => {
+  return request({
+    url: '/getCommunityList',
+    method: 'get',
+    params: data
+  })
+}
+
+const deleteCommunityList = (data) => {
+  return request({
+    url: '/deleteCommunityList',
+    method: 'post',
+    data
+  })
+}
+
+const updateCommunityList = (data) => {
+  return request({
+    url: '/updateCommunityList',
+    method: 'post',
+    data
+  })
+}
+
 export {
   getUser,
   editUser,
@@ -63,5 +111,11 @@ export {
   getDataList,
   deleteData,
   download,
-  updateData
+  updateData,
+  getNeed,
+  updateNeed,
+  deleteNeed,
+  getCommunityList,
+  deleteCommunityList,
+  updateCommunityList
 }

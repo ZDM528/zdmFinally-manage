@@ -4,7 +4,7 @@
       <el-form :model="giveForm" status-icon :rules="giveRules" ref="ruleForm" class="giveform" label-width="70px">
         <h3 class="publish-data">发布供给信息</h3>
         <el-form-item label="名称" prop="name">
-          <el-input v-model="giveForm.name" maxlength="30" show-word-limit placeholder="数据名称"></el-input>
+          <el-input v-model="giveForm.name" maxlength="30" show-word-limit placeholder="请输入数据名称"></el-input>
         </el-form-item>
         <el-form-item label="数据类别" prop="dataSort">
           <el-select v-model="giveForm.dataSort" placeholder="请选择数据类别" class="option-box">
@@ -40,7 +40,7 @@ export default {
   data() {
     var validateTitle = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入数据名称"));
+        callback(new Error("数据名称不能为空"));
       }
       callback();
     };
@@ -52,7 +52,7 @@ export default {
     };
     var validateContent = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请输入基本信息"));
+        callback(new Error("基本信息不能为空"));
       }
       callback();
     };
