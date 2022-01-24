@@ -3,7 +3,7 @@
     <el-card class="comment-card">
       <!-- 数据列表 -->
       <el-table :data="pageData" border style="width: 100%">
-        <el-table-column prop="id" label="评论ID" width="100"></el-table-column>
+        <el-table-column prop="commentCardId" label="评论ID" width="100"></el-table-column>
         <el-table-column prop="username" label="用户" width="150"></el-table-column>
         <el-table-column prop="comment" label="评论" width="250"></el-table-column>
         <el-table-column prop="right" label="操作">

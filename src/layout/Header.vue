@@ -53,8 +53,9 @@
 
 <script>
 import Cookies from "js-cookie";
-import Upload from "../../src/components/Upload.vue";
+import Upload from "../views/backend/components/Upload.vue";
 import { getImage } from "../../src/api/upload";
+
 export default {
   data() {
     return {
@@ -89,7 +90,7 @@ export default {
     this.getImgaeUrl();
   },
   mounted() {
-    this.form.name = Cookies.get("username");
+    this.form.name = Cookies.get("backUserName");
   },
   watch: {
     $route() {
@@ -119,18 +120,21 @@ export default {
       }
     },
     suitLogin() {
+      Cookies.remove("backUserName");
       this.$router.replace("/login");
     },
     enterPerson() {
-      this.$router.replace('/')
+      this.$router.replace("/");
     },
-    handleAdd() {},
+    handleAdd() {
+      
+    },
     changeInfo() {
       this.dialogVisible = true;
+      this.form.name = Cookies.get("backUserName");
       this.$nextTick(() => {
-        this.$refs.form.clearValidate();
+        this.$refs.form.resetFields();
       });
-      this.form.name = Cookies.get("username");
     },
   },
   components: {

@@ -17,6 +17,7 @@
 </template>
 <script>
 import { login } from "../../api/user";
+import Cookies from "js-cookie";
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -53,6 +54,7 @@ export default {
               message: "登录成功",
               type: "success",
             });
+            Cookies.set("backUserName", this.ruleForm.username);
             this.$router.replace({ path: "/userInfo" });
           } else {
             this.$message.error("用户名或密码错误");

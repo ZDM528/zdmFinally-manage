@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { saveImage } from "../api/upload";
+import { saveImage } from "../../../api/upload";
 export default {
   data() {
     return {

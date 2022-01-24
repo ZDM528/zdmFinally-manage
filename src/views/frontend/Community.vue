@@ -83,7 +83,7 @@ export default {
       if (!Cookies.get("username")) {
         this.$message.error("请先登录！");
       } else {
-        let res = await addCommunityComment({ id: item.id, comment: this.comment[index], username: Cookies.get("username") });
+        let res = await addCommunityComment({ commentCardId: item.id, comment: this.comment[index], username: Cookies.get("username") });
         if (res.code == 200) {
           this.getDataList(this.currentItem);
           this.comment[index]=''
