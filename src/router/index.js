@@ -61,7 +61,7 @@ const router = new VueRouter({
         {
             path: '/userInfo',
             name: '用户管理',
-            meta: { title: '用户管理', icon: 'el-icon-s-management' },
+            meta: { title: '用户管理', icon: 'el-icon-user-solid' },
             component: Layout,
             redirect: '/demostic',
             children: [
@@ -69,20 +69,20 @@ const router = new VueRouter({
                     path: '/demostic',
                     name: '普通用户',
                     component: () => import('@/views/backend/Demostic.vue'),
-                    meta: { title: '普通用户', icon: 'el-icon-edit' }
+                    meta: { title: '普通用户', icon: 'el-icon-star-off' }
                 },
                 {
                     path: '/member',
                     name: '会员用户',
                     component: () => import('@/views/backend/Member.vue'),
-                    meta: { title: '会员用户', icon: 'el-icon-edit' }
+                    meta: { title: '会员用户', icon: 'el-icon-star-on' }
                 }
             ]
         },
         {
             path: '/dataInfo',
             name: '数据管理',
-            meta: { title: '数据管理', icon: 'el-icon-s-management' },
+            meta: { title: '数据管理', icon: 'el-icon-s-data' },
             component: Layout,
             redirect: '/dataList',
             children: [
@@ -90,14 +90,14 @@ const router = new VueRouter({
                     path: '/dataList',
                     name: '数据列表',
                     component: () => import('@/views/backend/DataList.vue'),
-                    meta: { title: '数据列表', icon: 'el-icon-edit' },
+                    meta: { title: '数据列表', icon: 'el-icon-document' },
                 }
             ]
         },
         {
             path: '/needInfo',
             name: '需求管理',
-            meta: { title: '需求管理', icon: 'el-icon-s-management' },
+            meta: { title: '需求管理', icon: 'el-icon-chat-line-square' },
             component: Layout,
             redirect: '/userNeed',
             children: [
@@ -105,14 +105,14 @@ const router = new VueRouter({
                     path: '/userNeed',
                     name: '用户需求',
                     component: () => import('@/views/backend/UserNeed.vue'),
-                    meta: { title: '用户需求', icon: 'el-icon-edit' },
+                    meta: { title: '用户需求', icon: 'el-icon-user' },
                 }
             ]
         },
         {
             path: '/communityInfo',
             name: '社区管理',
-            meta: { title: '社区管理', icon: 'el-icon-s-management' },
+            meta: { title: '社区管理', icon: 'el-icon-house' },
             component: Layout,
             redirect: '/dataCommunity',
             children: [
@@ -120,13 +120,13 @@ const router = new VueRouter({
                     path: '/dataCommunity',
                     name: '数据社区',
                     component: () => import('@/views/backend/DataCommunity.vue'),
-                    meta: { title: '数据社区', icon: 'el-icon-edit' },
+                    meta: { title: '数据社区', icon: 'el-icon-tickets' },
                 },
                 {
                     path: '/commentCommunity',
                     name: '评论社区',
                     component: () => import('@/views/backend/CommentCommunity.vue'),
-                    meta: { title: '评论社区', icon: 'el-icon-edit' },
+                    meta: { title: '评论社区', icon: 'el-icon-chat-dot-round' },
                 }
             ]
         },
