@@ -1,7 +1,6 @@
 <template>
   <div class="datalist">
     <el-card class="data-card">
-
       <!-- 选项 -->
       <el-form :inline="true" :model="optionForm">
         <el-form-item label="审核状态">
@@ -18,8 +17,9 @@
 
       <!-- 数据列表 -->
       <el-table :data="dataList" border style="width: 100%">
-        <el-table-column prop="name" label="名称" width="160" fixed="left"></el-table-column>
-        <el-table-column prop="info" label="基本信息" width="220"></el-table-column>
+        <el-table-column prop="id" label="数据ID" width="80" fixed="left"></el-table-column>
+        <el-table-column prop="name" label="名称" width="120" fixed="left"></el-table-column>
+        <el-table-column prop="info" label="基本信息" width="180"></el-table-column>
         <el-table-column prop="score" label="兑换积分" width="100"></el-table-column>
         <el-table-column prop="access" label="价格" width="120"></el-table-column>
         <el-table-column prop="dataSort" label="数据类别" width="120"></el-table-column>
@@ -33,9 +33,8 @@
         </el-table-column>
       </el-table>
 
-       <!-- 分页 -->
-      <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" 
-       :current-page="currentPage"></el-pagination>
+      <!-- 分页 -->
+      <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" :current-page="currentPage"></el-pagination>
     </el-card>
 
     <edit-data-dialog :showDataDialog="showDataDialog" @dialogClosed="dialogClosed" :dataObj="dataObj"></edit-data-dialog>
@@ -43,17 +42,18 @@
 </template>
 
 <script>
-import { getDataList, deleteData, download } from '../../api/backend'
-import EditDataDialog from './EditDataDialog.vue'
+import { getDataList, deleteData } from "../../api/backend";
+import EditDataDialog from "./EditDataDialog.vue";
+import { getDownloadRequest } from "../download";
 export default {
-  name: 'DataList',
+  name: "DataList",
   components: {
-    EditDataDialog
+    EditDataDialog,
   },
   data() {
     return {
       optionForm: {
-        isCheck: '全部内容'
+        isCheck: "全部内容",
       },
       pageData: [],
       dataList: [], //渲染的数据数组
@@ -61,18 +61,18 @@ export default {
       pageSize: 10, //每页数据条数
       currentPage: 1, //当前页数
       showDataDialog: false,
-      dataObj: {}
-    }
+      dataObj: {},
+    };
   },
   mounted() {
-    this.getData()
+    this.getData();
   },
   methods: {
     async getData() {
-      let res = await getDataList(this.optionForm)
-      if(res.code === 200) {
-        console.log('获取数据列表成功！')
-        this.pageData = res.result
+      let res = await getDataList(this.optionForm);
+      if (res.code === 200) {
+        console.log("获取数据列表成功！");
+        this.pageData = res.result;
         this.count = res.result.length;
         this.getPageData();
       }
@@ -89,7 +89,7 @@ export default {
       this.getPageData();
     },
     dataSubmit() {
-      this.getData()
+      this.getData();
     },
     //删除
     del(row) {
@@ -97,51 +97,35 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "success",
-      }).then(async () => {
-        let res = await deleteData({
-          id: row.id
+      })
+        .then(async () => {
+          let res = await deleteData({
+            id: row.id,
+          });
+          if (res.code === 200) {
+            this.$message.success("删除成功！");
+            this.getData();
+          } else {
+            this.$message.error("删除失败！");
+          }
         })
-        if(res.code === 200) {
-          this.$message.success('删除成功！')
-          this.getData()
-        } else {
-          this.$message.error('删除失败！')
-        }
-      }).catch(err => err)
+        .catch((err) => err);
     },
     //下载
     async download(row) {
-      let res = await download({
-        id: row.id,
-      });
-      if (res) {
-        const buf = Buffer.from(res.data.data, "binary");
-        let blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8" }); // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
-        let downloadElement = document.createElement("a");
-        let href = window.URL.createObjectURL(blob); // 创建下载的链接
-        downloadElement.href = href;
-        downloadElement.download = "data.xlsx"; // 下载后文件名
-        document.body.appendChild(downloadElement);
-        downloadElement.click(); // 点击下载
-        document.body.removeChild(downloadElement); // 下载完成移除元素
-        window.URL.revokeObjectURL(href); // 释放掉blob对象
-        console.log("获取列表数据成功");
-        this.$message.success("下载成功！");
-      } else {
-        this.$message.error("下载失败！");
-      }
+      getDownloadRequest(row);
     },
     //修改
     edit(row) {
-      this.showDataDialog = true
-      this.dataObj = JSON.parse(JSON.stringify(row))
+      this.showDataDialog = true;
+      this.dataObj = JSON.parse(JSON.stringify(row));
     },
     dialogClosed() {
-      this.showDataDialog = false
-      this.getData()
-    }
-  }
-}
+      this.showDataDialog = false;
+      this.getData();
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

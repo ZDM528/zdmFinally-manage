@@ -9,6 +9,15 @@ const login = (data) => {
     })
 }
 
+const editPersonData = (data) => {
+    return request({
+        url: '/editPersonData',
+        method: 'post',
+        data
+    })
+}
+
 export {
-    login
+    login,
+    editPersonData
 }

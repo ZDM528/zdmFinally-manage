@@ -9,13 +9,7 @@ const getWareList = (data) => {
   })
 }
 
-const download = (data) => {
-  return request({
-    url: '/downloadData',
-    method: 'get',
-    params: data
-  })
-}
+
 
 const updateScore = (data) => {
   return request({
@@ -27,6 +21,5 @@ const updateScore = (data) => {
 
 export {
   getWareList,
-  download,
   updateScore
 }

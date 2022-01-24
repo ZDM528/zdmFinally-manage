@@ -15,7 +15,7 @@
   </el-container>
 </template>
 <script>
-import imgUrl from "../assets/img/logo.jpeg";
+import imgUrl from "../assets/img/fish-logo.png";
 import Head from "./Header";
 import Slide from "./Slide";
 export default {
@@ -36,15 +36,15 @@ export default {
     Slide,
   },
   methods: {
-    toggleCollapse(isCollapse,asideWidth) {
+    toggleCollapse(isCollapse, asideWidth) {
       this.isCollapse = isCollapse;
-      this.asideWidth = asideWidth
+      this.asideWidth = asideWidth;
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 body {
   background-color: rgba(157, 161, 160, 0.479);
 }

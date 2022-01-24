@@ -28,19 +28,16 @@
     <el-dialog title="个人信息" :visible.sync="dialogVisible" width="30%">
       <el-form ref="form" :model="form" :rules="rules">
         <el-form-item prop="uploadImg">
-          <upload />
+          <upload @photoData="photoData" :imgUrl="imgUrl" @photoImgUrl="photoImgUrl" />
         </el-form-item>
         <el-form-item label="用户名" prop="name">
           <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item ref="oldPassword" label="旧密码" prop="oldPass">
-          <el-input v-model="form.oldPass"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPass">
           <el-input v-model="form.newPass"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleAdd" style="float: right; margin-left: 10px">确 定</el-button>
+          <el-button type="primary" @click="handleAdd('form')" style="float: right; margin-left: 10px">确 定</el-button>
           <el-button @click="dialogVisible = false" style="float: right">取 消</el-button>
         </el-form-item>
       </el-form>
@@ -54,7 +51,8 @@
 <script>
 import Cookies from "js-cookie";
 import Upload from "../views/backend/components/Upload.vue";
-import { getImage } from "../../src/api/upload";
+import { getImage, saveImage } from "../../src/api/upload";
+import { editPersonData } from "../../src/api/user";
 
 export default {
   data() {
@@ -62,20 +60,17 @@ export default {
       routeList: [],
       isCollapse: false,
       imgUrl: "",
+      saveImg: "",
       dialogVisible: false,
       form: {
         name: "",
-        oldPass: "",
         newPass: "",
-        uploadImg: "",
+        formData: "",
+        id: "",
       },
       rules: {
         name: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { validator: this.checkName, trigger: "blur" },
-        ],
-        oldPass: [
-          { required: true, message: "请输入旧密码", trigger: "blur" },
           { validator: this.checkName, trigger: "blur" },
         ],
         newPass: [
@@ -83,6 +78,7 @@ export default {
           { validator: this.checkName, trigger: "blur" },
         ],
       },
+      formData: "",
     };
   },
   created() {
@@ -126,15 +122,44 @@ export default {
     enterPerson() {
       this.$router.replace("/");
     },
-    handleAdd() {
-      
+    async handleAdd(formName) {
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          if (this.formData != "") {
+            let result = await saveImage(this.formData);
+            if (result.code == 200) {
+              this.imgUrl = this.saveImg;
+            }
+          }
+          let idObj = { id: Cookies.get("backUserId") };
+          let res = await editPersonData({ ...this.form, ...idObj });
+          if (res.code == 200) {
+            this.$message.success("修改成功！");
+            this.$refs[formName].resetFields();
+            this.dialogVisible = false;
+          } else {
+            this.$message.error("修改失败！");
+          }
+        } else {
+          return false;
+        }
+      });
+    },
+    photoData(data) {
+      this.formData = data;
+    },
+    photoImgUrl(imageUrl) {
+      this.saveImg = imageUrl;
     },
     changeInfo() {
       this.dialogVisible = true;
-      this.form.name = Cookies.get("backUserName");
+      this.formData = "";
+      this.saveImg = "";
+      this.getImgaeUrl();
       this.$nextTick(() => {
         this.$refs.form.resetFields();
       });
+      this.form.name = Cookies.get("backUserName");
     },
   },
   components: {
@@ -162,6 +187,8 @@ export default {
         cursor: pointer;
         width: 40px;
         height: 40px;
+        margin-top: 20px;
+        border-radius: 50%;
       }
       .el-icon-caret-bottom {
         cursor: pointer;

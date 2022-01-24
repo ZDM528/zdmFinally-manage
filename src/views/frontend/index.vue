@@ -80,7 +80,10 @@ export default {
     }
     if (Cookies.get("username")) {
       this.disabled = true;
-    this.getScoreData();
+      this.getScoreData();
+    }
+    if (Cookies.get("isVip") == "yes") {
+      this.isVip = true;
     }
   },
   methods: {

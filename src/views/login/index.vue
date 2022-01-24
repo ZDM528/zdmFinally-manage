@@ -55,6 +55,7 @@ export default {
               type: "success",
             });
             Cookies.set("backUserName", this.ruleForm.username);
+            Cookies.set("backUserId", res.data[0].id);
             this.$router.replace({ path: "/userInfo" });
           } else {
             this.$message.error("用户名或密码错误");

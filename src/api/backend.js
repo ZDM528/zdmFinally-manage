@@ -40,13 +40,7 @@ const deleteData = (data) => {
   })
 }
 
-const download = (data) => {
-  return request({
-    url: '/downloadData',
-    method: 'get',
-    params: data
-  })
-}
+
 
 const updateData = (data) => {
   return request({
@@ -139,7 +133,6 @@ export {
   deleteUser,
   getDataList,
   deleteData,
-  download,
   updateData,
   getNeed,
   updateNeed,

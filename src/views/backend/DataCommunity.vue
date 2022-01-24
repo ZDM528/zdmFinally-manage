@@ -1,7 +1,6 @@
 <template>
   <div class="datalist">
     <el-card class="data-card">
-
       <!-- 选项 -->
       <el-form :inline="true" :model="optionForm">
         <el-form-item label="主题">
@@ -14,9 +13,10 @@
         <el-form-item>
           <el-button type="primary" @click="dataSubmit">查询</el-button>
         </el-form-item>
-        <el-button type="danger" @click="publish" class="btn">发布</el-button>
+        <el-form-item>
+          <el-button type="danger" @click="publish" class="btn">社区发帖</el-button>
+        </el-form-item>
       </el-form>
-
 
       <!-- 数据列表 -->
       <el-table :data="dataList" border style="width: 100%">
@@ -32,33 +32,32 @@
         </el-table-column>
       </el-table>
 
-       <!-- 分页 -->
-      <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" 
-       :current-page="currentPage"></el-pagination>
+      <!-- 分页 -->
+      <el-pagination background layout="total, prev, pager, next" :total="count" @current-change="handleCurrentChange" :current-page="currentPage"></el-pagination>
     </el-card>
 
     <!-- 修改对话框 -->
     <edit-community-dialog :showCommunityDialog="showCommunityDialog" :dataObj="dataObj" @dialogClosed="dialogClosed"></edit-community-dialog>
-  
+
     <!-- 发布对话框 -->
     <publish-dialog :showPublishDialog="showPublishDialog" @dialogClosed="dialogClose"></publish-dialog>
   </div>
 </template>
 
 <script>
-import { getCommunityList, deleteCommunityList } from '../../api/backend'
-import EditCommunityDialog from './EditCommunityDialog.vue'
-import PublishDialog from './PublishDialog.vue'
+import { getCommunityList, deleteCommunityList } from "../../api/backend";
+import EditCommunityDialog from "./EditCommunityDialog.vue";
+import PublishDialog from "./PublishDialog.vue";
 export default {
-  name: 'DataCommunity',
+  name: "DataCommunity",
   components: {
     EditCommunityDialog,
-    PublishDialog
+    PublishDialog,
   },
   data() {
     return {
       optionForm: {
-        type: '全部内容'
+        type: "全部内容",
       },
       pageData: [],
       dataList: [], //渲染的数据数组
@@ -67,18 +66,18 @@ export default {
       currentPage: 1, //当前页数
       dataObj: {},
       showCommunityDialog: false,
-      showPublishDialog: false
-    }
+      showPublishDialog: false,
+    };
   },
   mounted() {
-    this.getData()
+    this.getData();
   },
   methods: {
     async getData() {
-      let res = await getCommunityList(this.optionForm)
-      if(res.code === 200) {
-        console.log('获取数据列表成功！')
-        this.pageData = res.data
+      let res = await getCommunityList(this.optionForm);
+      if (res.code === 200) {
+        console.log("获取数据列表成功！");
+        this.pageData = res.data;
         this.count = res.data.length;
         this.getPageData();
       }
@@ -95,7 +94,7 @@ export default {
       this.getPageData();
     },
     dataSubmit() {
-      this.getData()
+      this.getData();
     },
     //删除
     del(row) {
@@ -103,39 +102,41 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "success",
-      }).then(async () => {
-        let res = await deleteCommunityList({
-          id: row.id
+      })
+        .then(async () => {
+          let res = await deleteCommunityList({
+            id: row.id,
+          });
+          if (res.code === 200) {
+            this.$message.success("删除成功！");
+            this.getData();
+          } else {
+            this.$message.error("删除失败！");
+          }
         })
-        if(res.code === 200) {
-          this.$message.success('删除成功！')
-          this.getData()
-        } else {
-          this.$message.error('删除失败！')
-        }
-      }).catch(err => err)
+        .catch((err) => err);
     },
     // 修改
     edit(row) {
-      this.showCommunityDialog = true
-      this.dataObj = JSON.parse(JSON.stringify(row))
+      this.showCommunityDialog = true;
+      this.dataObj = JSON.parse(JSON.stringify(row));
     },
     //修改对话框关闭
     dialogClosed() {
-      this.showCommunityDialog = false
-      this.getData()
+      this.showCommunityDialog = false;
+      this.getData();
     },
     //发布对话框关闭
     dialogClose() {
-      this.showPublishDialog = false
-      this.getData()
+      this.showPublishDialog = false;
+      this.getData();
     },
     //发布
     publish() {
-      this.showPublishDialog = true
-    }
-  }
-}
+      this.showPublishDialog = true;
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -150,7 +151,7 @@ export default {
     width: 85%;
     border-radius: 20px;
     .btn {
-      width: 10%;
+      // width: 10%;
     }
   }
 }

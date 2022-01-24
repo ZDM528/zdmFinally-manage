@@ -6,33 +6,27 @@
 </template>
 
 <script>
-import { saveImage } from "../../../api/upload";
 export default {
+  props: ["imgUrl"],
   data() {
     return {
       imageUrl: "",
-      photoName: "",
     };
   },
   mounted() {
-    this.imageUrl == "";
+    this.imageUrl = this.imgUrl;
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      console.log(URL.createObjectURL(file.raw));
       this.imageUrl = URL.createObjectURL(file.raw);
-      //   this.$emit("upload-url", this.imageUrl);
+      this.$emit("photoImgUrl", this.imageUrl);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
       const isLt8M = file.size / 1024 / 1024 < 8;
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
       if (!isLt8M) {
         this.$message.error("上传头像图片大小不能超过 8MB!");
       }
-      return isJPG && isLt8M;
+      return isLt8M;
     },
     async uploadImg(param) {
       //  let imgFile = new FileReader();
@@ -42,11 +36,7 @@ export default {
       // }
       const formData = new FormData();
       formData.append("file", param.file);
-      const result = await saveImage(formData);
-      console.log(result);
-      if (result.code === 200) {
-        this.$message.success("上传图片成功");
-      }
+      this.$emit("photoData", formData);
     },
   },
 };

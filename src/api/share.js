@@ -32,18 +32,10 @@ const getPersonData = (data) => {
   })
 }
 
-const download = (data) => {
-  return request({
-    url: '/downloadPersonData',
-    method: 'get',
-    params: data
-  })
-}
 
 export {
   getNeed,
   addProjectData,
   addUploadFile,
   getPersonData,
-  download
 }
