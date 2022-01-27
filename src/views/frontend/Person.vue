@@ -2,7 +2,7 @@
   <div class="person">
     <el-card class="person-card">
       <div class="info">
-        <div class="person-info">基本信息</div>
+        <div class="person-info">基本信息<span class="btn"><el-button type="primary" @click="editPwd">修改密码</el-button></span></div>
         <div class="common">用户名： {{ `${Cookies.get("username")}` }}</div>
         <div class="common">个人积分： {{ score }}</div>
         <div class="common">
@@ -36,21 +36,29 @@
         </div>
       </div>
     </el-card>
+
+    <!-- 修改密码对话框 -->
+    <edit-pwd :showEditDialog="showEditDialog" @dialogClosed="dialogClosed"></edit-pwd>
   </div>
 </template>
 
 <script>
+import EditPwd from './EditPwd'
 import { getPersonData } from "../../api/share";
 import Cookies from "js-cookie";
 import { getScore } from "../../api/loginRegister";
 import { getDownloadRequest } from "../download";
 export default {
   name: "Person",
+  components: {
+    EditPwd
+  },
   data() {
     return {
       needData: [],
       giveData: [],
       score: 0,
+      showEditDialog: false
     };
   },
   mounted() {
@@ -100,6 +108,12 @@ export default {
         return "color:orange";
       }
     },
+    editPwd() {
+      this.showEditDialog = true
+    },
+    dialogClosed() {
+      this.showEditDialog = false
+    }
   },
 };
 </script>
@@ -121,6 +135,11 @@ export default {
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 20px;
+        .btn {
+          position: absolute;
+          top: 12%;
+          left: 70%;
+        }
       }
       .common {
         padding-left: 6%;

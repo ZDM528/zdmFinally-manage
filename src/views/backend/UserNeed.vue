@@ -3,13 +3,13 @@
     <el-card class="user-card">
       <!-- 数据列表 -->
       <el-table :data="pageData" border style="width: 100%" :cell-style="setRowStyle">
-        <el-table-column prop="title" label="标题" width="160"></el-table-column>
+        <el-table-column prop="title" label="标题" width="160" fixed="left"></el-table-column>
         <el-table-column prop="detail" label="详情描述" width="160"></el-table-column>
         <el-table-column prop="type" label="服务类型" width="150"></el-table-column>
         <el-table-column prop="name" label="联系人" width="130"></el-table-column>
         <el-table-column prop="phone" label="手机号码" width="130"></el-table-column>
         <el-table-column prop="hasSupply" label="是否提供" width="130"></el-table-column>
-        <el-table-column prop="right" label="操作" width="165">
+        <el-table-column prop="right" label="操作" width="165" fixed="right">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" @click="edit(scope.row)">修改</el-button>
             <el-button size="mini" type="danger" @click="del(scope.row)">删除</el-button>

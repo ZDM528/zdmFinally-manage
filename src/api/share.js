@@ -32,10 +32,18 @@ const getPersonData = (data) => {
   })
 }
 
+const editPersonInfo = (data) => {
+  return request({
+    url: '/editPersonInfo',
+    method: 'post',
+    data
+  })
+}
 
 export {
   getNeed,
   addProjectData,
   addUploadFile,
   getPersonData,
+  editPersonInfo
 }

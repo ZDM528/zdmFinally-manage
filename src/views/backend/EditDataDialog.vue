@@ -121,7 +121,7 @@ export default {
         access: [{ validator: validateAccess, trigger: "blur" }],
         dataSort: [{ validator: validateDataSort, trigger: "blur" }],
         isCheck: [{ validator: validateIsChecked, trigger: "blur" }],
-      },
+      }
     };
   },
   methods: {

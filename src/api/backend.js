@@ -105,6 +105,7 @@ const addCommunityList = (data) => {
     data
   })
 }
+
 const getCommentList = (data) => {
   return request({
     url: '/getCommentList',
@@ -112,6 +113,7 @@ const getCommentList = (data) => {
     params: data
   })
 }
+
 const updateCommentList = (data) => {
   return request({
     url: '/updateCommentList',
@@ -119,9 +121,18 @@ const updateCommentList = (data) => {
     params: data
   })
 }
+
 const deleteCommemtList = (data) => {
   return request({
     url: '/deleteCommemtList',
+    method: 'post',
+    data
+  })
+}
+
+const addData = (data) => {
+  return request({
+    url: '/addData',
     method: 'post',
     data
   })
@@ -143,5 +154,6 @@ export {
   addCommunityList,
   getCommentList,
   updateCommentList,
-  deleteCommemtList
+  deleteCommemtList,
+  addData
 }

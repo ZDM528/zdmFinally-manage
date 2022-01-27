@@ -14,6 +14,7 @@
         <el-form-item>
           <el-button type="primary" @click="dataSubmit">查询</el-button>
         </el-form-item>
+        <el-button type="warning" @click="publish">上传数据集</el-button>
       </el-form>
 
       <!-- 数据列表 -->
@@ -39,10 +40,12 @@
     </el-card>
 
     <edit-data-dialog :showDataDialog="showDataDialog" @dialogClosed="dialogClosed" :dataObj="dataObj"></edit-data-dialog>
+    <publish-data-dialog :showPublishDataDialog="showPublishDataDialog" @dialogClosed="dialogClose"></publish-data-dialog>
   </div>
 </template>
 
 <script>
+import PublishDataDialog from './PublishDataDialog.vue'
 import { getDataList, deleteData } from "../../api/backend";
 import EditDataDialog from "./EditDataDialog.vue";
 import { getDownloadRequest } from "../download";
@@ -50,6 +53,7 @@ export default {
   name: "DataList",
   components: {
     EditDataDialog,
+    PublishDataDialog
   },
   data() {
     return {
@@ -63,6 +67,7 @@ export default {
       currentPage: 1, //当前页数
       showDataDialog: false,
       dataObj: {},
+      showPublishDataDialog: false
     };
   },
   mounted() {
@@ -134,6 +139,12 @@ export default {
         return "color:orange";
       }
     },
+    publish() {
+      this.showPublishDataDialog = true
+    },
+    dialogClose() {
+      this.showPublishDataDialog = false
+    }
   },
 };
 </script>
