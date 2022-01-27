@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import PublishDataDialog from './PublishDataDialog.vue'
+import PublishDataDialog from "./PublishDataDialog.vue";
 import { getDataList, deleteData } from "../../api/backend";
 import EditDataDialog from "./EditDataDialog.vue";
 import { getDownloadRequest } from "../download";
@@ -53,7 +53,7 @@ export default {
   name: "DataList",
   components: {
     EditDataDialog,
-    PublishDataDialog
+    PublishDataDialog,
   },
   data() {
     return {
@@ -67,7 +67,7 @@ export default {
       currentPage: 1, //当前页数
       showDataDialog: false,
       dataObj: {},
-      showPublishDataDialog: false
+      showPublishDataDialog: false,
     };
   },
   mounted() {
@@ -140,11 +140,12 @@ export default {
       }
     },
     publish() {
-      this.showPublishDataDialog = true
+      this.showPublishDataDialog = true;
     },
     dialogClose() {
-      this.showPublishDataDialog = false
-    }
+      this.showPublishDataDialog = false;
+      this.getData();
+    },
   },
 };
 </script>

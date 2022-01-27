@@ -40,16 +40,16 @@
 
 <script>
 import { addUploadFile } from "../../api/share";
-import { addData } from '../../api/backend'
+import { addData } from "../../api/backend";
 export default {
-  name: 'PublishDataDialog',
+  name: "PublishDataDialog",
   props: {
-    showPublishDataDialog: Boolean
+    showPublishDataDialog: Boolean,
   },
   watch: {
     showPublishDataDialog() {
-      this.showDialog = this.showPublishDataDialog
-    }
+      this.showDialog = this.showPublishDataDialog;
+    },
   },
   data() {
     var validateName = (rule, value, callback) => {
@@ -79,8 +79,16 @@ export default {
     var validateScore = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("兑换积分不能为空"));
-      } else if (value < 0) {
-        callback(new Error("兑换积分不能小于0"));
+      } else {
+        if (this.dataForm.access == "免费") {
+          if (value != 0) {
+            callback(new Error("兑换积分只能为0"));
+          }
+        } else {
+          if (value <= 0) {
+            callback(new Error("兑换积分需大于0"));
+          }
+        }
       }
       callback();
     };
@@ -93,12 +101,12 @@ export default {
     return {
       showDialog: false,
       dataForm: {
-        name: '',
-        access: '',
-        info: '',
-        dataSort: '',
-        score: '',
-        file: ''
+        name: "",
+        access: "",
+        info: "",
+        dataSort: "",
+        score: "",
+        file: "",
       },
       dataRules: {
         name: [{ validator: validateName, trigger: "blur" }],
@@ -107,13 +115,13 @@ export default {
         dataSort: [{ validator: validateDataSort, trigger: "blur" }],
         score: [{ validator: validateScore, trigger: "blur" }],
         file: [{ validator: validateFile, trigger: "blur" }],
-      }
-    }
+      },
+    };
   },
   methods: {
     dialogClosed() {
-      this.$refs.dataForm.resetFields()
-      this.$emit('dialogClosed')
+      this.$refs.dataForm.resetFields();
+      this.$emit("dialogClosed");
     },
     uploadImg(param) {
       const formData = new FormData(); // 通过FormData将文件转成二进制数据
@@ -128,7 +136,7 @@ export default {
           if (res.code === 200) {
             this.$message.success("发布成功！");
             this.$refs[formName].resetFields();
-            this.$emit('dialogClosed')
+            this.$emit("dialogClosed");
             this.dataForm.file = "";
             this.$refs["upload"].clearFiles();
           } else {
@@ -139,8 +147,8 @@ export default {
         }
       });
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
