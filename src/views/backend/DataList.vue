@@ -6,7 +6,8 @@
         <el-form-item label="审核状态">
           <el-select v-model="optionForm.isCheck" placeholder="请选择审核状态">
             <el-option label="全部内容" value="全部内容"></el-option>
-            <el-option label="已审核" value="已审核"></el-option>
+            <el-option label="审核通过" value="审核通过"></el-option>
+            <el-option label="审核未通过" value="审核未通过"></el-option>
             <el-option label="待审核" value="待审核"></el-option>
           </el-select>
         </el-form-item>
@@ -16,7 +17,7 @@
       </el-form>
 
       <!-- 数据列表 -->
-      <el-table :data="dataList" border style="width: 100%">
+      <el-table :data="dataList" border style="width: 100%" :cell-style="setRowStyle">
         <el-table-column prop="id" label="数据ID" width="80" fixed="left"></el-table-column>
         <el-table-column prop="name" label="名称" width="120" fixed="left"></el-table-column>
         <el-table-column prop="info" label="基本信息" width="180"></el-table-column>
@@ -123,6 +124,15 @@ export default {
     dialogClosed() {
       this.showDataDialog = false;
       this.getData();
+    },
+    setRowStyle({ row, columnIndex }) {
+      if (row.isCheck == "审核通过" && columnIndex == 6) {
+        return "color:#0CB618";
+      } else if (row.isCheck == "审核未通过" && columnIndex == 6) {
+        return "color:#EA1B29";
+      } else if (row.isCheck == "待审核" && columnIndex == 6) {
+        return "color:orange";
+      }
     },
   },
 };

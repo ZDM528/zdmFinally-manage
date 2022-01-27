@@ -9,19 +9,20 @@
           <span class="need">我的需求：</span>
           <!-- 我的需求 -->
           <span v-if="needData.length == 0">无</span>
-          <el-table :data="needData" border style="width: 100%" class="need-table" v-else-if="needData.length > 0">
+          <el-table :data="needData" border style="width: 100%" class="need-table" v-else-if="needData.length > 0" :cell-style="setRowStyle1">
             <el-table-column prop="title" label="标题" width="190"></el-table-column>
             <el-table-column prop="detail" label="详情描述" width="190"></el-table-column>
             <el-table-column prop="type" label="服务类型" width="130"></el-table-column>
             <el-table-column prop="name" label="联系人" width="130"></el-table-column>
             <el-table-column prop="phone" label="手机号码" width="150"></el-table-column>
+            <el-table-column prop="hasSupply" label="是否提供" width="130"></el-table-column>
           </el-table>
         </div>
         <div class="common">
           <span class="publish">我的供给：</span>
           <!-- 我的供给 -->
           <span v-if="giveData.length == 0">无</span>
-          <el-table :data="giveData" border style="width: 100%" class="give-table" v-else-if="giveData.length > 0">
+          <el-table :data="giveData" border style="width: 100%" class="give-table" v-else-if="giveData.length > 0" :cell-style="setRowStyle2">
             <el-table-column prop="name" label="名称" width="190" fixed="left"></el-table-column>
             <el-table-column prop="dataSort" label="数据类别" width="190"></el-table-column>
             <el-table-column prop="info" label="基本信息" width="130"></el-table-column>
@@ -83,6 +84,22 @@ export default {
     async detailClick(row) {
       getDownloadRequest(row);
     },
+    setRowStyle1({ row, columnIndex }) {
+      if (row.hasSupply == "是" && columnIndex == 5) {
+        return "color:#0CB618";
+      } else if (row.hasSupply == "否" && columnIndex == 5) {
+        return "color:#EA1B29";
+      }
+    },
+    setRowStyle2({ row, columnIndex }) {
+      if (row.isCheck == "审核通过" && columnIndex == 3) {
+        return "color:#0CB618";
+      } else if (row.isCheck == "审核未通过" && columnIndex == 3) {
+        return "color:#EA1B29";
+      } else if (row.isCheck == "待审核" && columnIndex == 3) {
+        return "color:orange";
+      }
+    },
   },
 };
 </script>
@@ -96,7 +113,7 @@ export default {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    width: 60%;
+    width: 68%;
     border-radius: 20px;
     .info {
       margin-top: 20px;

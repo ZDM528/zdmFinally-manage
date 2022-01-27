@@ -2,7 +2,7 @@ import request from '../util/request'
 
 const getNeed = (data) => {
   return request({
-    url: '/supplyProjectData',
+    url: '/addNeed',
     method: 'post',
     data
   })
